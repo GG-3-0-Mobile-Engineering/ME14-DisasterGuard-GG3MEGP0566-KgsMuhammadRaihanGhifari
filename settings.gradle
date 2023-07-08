@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "DisasterGuard"
 include ':app'
+include ':coreapp'
+include ':settings'
