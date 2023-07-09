@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">DisasterGuard</string>
     <string name="title_settings">Settings</string>
+    <string name="pref_key_dark" translatable="false">key_dark_mode</string>
+    <string name="pref_dark_follow_system" translatable="false">follow_system</string>
+    <string name="action_settings">Settings</string>
 </resources>

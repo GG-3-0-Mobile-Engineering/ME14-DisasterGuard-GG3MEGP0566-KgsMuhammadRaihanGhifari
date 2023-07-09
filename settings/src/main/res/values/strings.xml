@@ -1,0 +1,11 @@
+<resources>
+    <string name="pref_dark_title">Dark mode</string>
+    <string name="pref_key_dark" translatable="false">key_dark_mode</string>
+    <string name="pref_dark_follow_system" translatable="false">follow_system</string>
+    <string name="pref_dark_on" translatable="false">on</string>
+    <string name="pref_dark_off" translatable="false">off</string>
+    <string name="dark_mode_auto">Automatic</string>
+    <string name="dark_mode_on">Dark mode</string>
+    <string name="dark_mode_off">Light mode</string>
+    <string name="action_settings">Settings</string>
+</resources>
