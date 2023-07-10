@@ -22,9 +22,17 @@ android {
     }
 
     buildTypes {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+        debug{
+            buildConfigField "String", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
+            resValue "string", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
+            resValue "string", "API_KEY_MAP", "\"${properties.getProperty("API_KEY_MAP")}\""
         }
     }
     compileOptions {
