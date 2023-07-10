@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.hann.disasterguard.util.DarkMode
-import java.util.*
 
 class MyApplication : Application() {
 
@@ -12,13 +11,8 @@ class MyApplication : Application() {
         super.onCreate()
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        preferences.getString(
-            getString(R.string.pref_key_dark),
-            getString(R.string.pref_dark_follow_system)
-        )?.apply {
-            val mode = DarkMode.valueOf(this.uppercase(Locale.US))
-            AppCompatDelegate.setDefaultNightMode(mode.value)
-        }
+        val shouldNotify = preferences.getBoolean(applicationContext.getString(R.string.pref_key_theme), false)
+        AppCompatDelegate.setDefaultNightMode(if (shouldNotify) { DarkMode.ON.value } else { DarkMode.OFF.value })
 
     }
 }
