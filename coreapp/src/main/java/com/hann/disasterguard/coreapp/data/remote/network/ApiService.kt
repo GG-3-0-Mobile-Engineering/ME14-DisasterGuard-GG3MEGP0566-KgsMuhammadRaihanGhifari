@@ -7,8 +7,8 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("reports")
-    suspend fun getReports(
-        @Query("admin") admin: String,
+    suspend fun getLiveReports(
+        @Query("admin") admin: String? = null ,
     ) : ReportsResponse
 
 }

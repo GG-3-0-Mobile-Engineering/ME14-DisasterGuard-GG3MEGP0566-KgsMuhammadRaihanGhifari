@@ -1,6 +1,6 @@
 package com.hann.disasterguard.coreapp.data.remote.response.report
 
-data class Geometry(
+data class GeometryReportItem(
     val coordinates: List<Int>,
     val properties: Properties,
     val type: String
