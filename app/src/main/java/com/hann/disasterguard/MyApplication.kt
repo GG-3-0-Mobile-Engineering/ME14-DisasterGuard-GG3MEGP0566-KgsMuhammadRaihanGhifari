@@ -7,6 +7,7 @@ import com.hann.disasterguard.coreapp.di.databaseModule
 import com.hann.disasterguard.coreapp.di.networkModule
 import com.hann.disasterguard.coreapp.di.repositoryModule
 import com.hann.disasterguard.coreapp.di.useCaseModule
+import com.hann.disasterguard.presentation.di.viewModelModule
 import com.hann.disasterguard.util.DarkMode
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,7 +26,8 @@ class MyApplication : Application() {
                     databaseModule,
                     networkModule,
                     repositoryModule,
-                    useCaseModule
+                    useCaseModule,
+                    viewModelModule
                 )
             )
         }

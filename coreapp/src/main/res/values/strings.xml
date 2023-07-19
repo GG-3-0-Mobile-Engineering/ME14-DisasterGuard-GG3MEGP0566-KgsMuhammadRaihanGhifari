@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="image_disaster">image disaster</string>
+    <string name="disaster_name">Disaster Name</string>
+    <string name="disaster_time">10 Febuari 2023 20:00 PM</string>
+</resources>

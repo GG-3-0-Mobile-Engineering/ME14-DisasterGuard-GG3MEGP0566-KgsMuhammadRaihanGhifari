@@ -8,11 +8,11 @@ import android.view.MenuItem
 import com.hann.disasterguard.R
 import com.hann.disasterguard.databinding.ActivityMainBinding
 import com.hann.disasterguard.presentation.map.MapFragment
+import com.hann.disasterguard.presentation.report.ReportFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
                     .add(R.id.map_container, fragment, MapFragment::class.java.simpleName)
                     .commit()
             }
+        binding.button.setOnClickListener {
+            val reportFragment = ReportFragment()
+            reportFragment.show(supportFragmentManager, reportFragment.tag)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

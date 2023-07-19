@@ -10,6 +10,7 @@ object DataMapper {
         val geometryList = ArrayList<GeometryReportEntity>()
         input.map {
             val geometry = GeometryReportEntity(
+                id = it.properties.pkey,
                 type = it.type,
                 coordinates = it.coordinates,
                 properties = it.properties
