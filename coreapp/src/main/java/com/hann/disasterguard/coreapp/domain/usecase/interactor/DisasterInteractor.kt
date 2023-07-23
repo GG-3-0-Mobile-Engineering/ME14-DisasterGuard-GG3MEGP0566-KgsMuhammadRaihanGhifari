@@ -1,5 +1,6 @@
 package com.hann.disasterguard.coreapp.domain.usecase.interactor
 
+import com.hann.disasterguard.coreapp.domain.model.ArchiveReport
 import com.hann.disasterguard.coreapp.domain.model.GeometryReport
 import com.hann.disasterguard.coreapp.domain.repository.IDisasterRepository
 import com.hann.disasterguard.coreapp.domain.usecase.DisasterUseCase
@@ -10,6 +11,15 @@ class DisasterInteractor(private val iDisasterRepository: IDisasterRepository) :
 
     override fun getLiveReport(admin: String?): Flow<Resource<List<GeometryReport>>> {
         return iDisasterRepository.getLiveReport(admin)
+    }
+
+    override fun getArchiveReport(
+        start: String,
+        end: String,
+        city: String?,
+        geoformat: String?
+    ): Flow<Resource<List<ArchiveReport>>> {
+        return iDisasterRepository.getArchiveReport(start, end, city, geoformat)
     }
 
 }

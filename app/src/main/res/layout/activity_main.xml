@@ -6,21 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".presentation.main.MainActivity">
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/map_container">
-    </FrameLayout>
+    </androidx.fragment.app.FragmentContainerView>
 
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recent_disaster"
-        android:layout_margin="48dp"
+    <ImageView
+        android:id="@+id/ic_disaster_live"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/disaster_alert"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/icon_disaster_live" />
+
+    <ImageView
+        android:id="@+id/ic_disaster_archive"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/icon_disaster_archive"
+        android:src="@drawable/disaster_archive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_disaster_live" />
+
+    <ImageView
+        android:id="@+id/ic_setting"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/action_settings"
+        android:src="@drawable/settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_disaster_archive" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

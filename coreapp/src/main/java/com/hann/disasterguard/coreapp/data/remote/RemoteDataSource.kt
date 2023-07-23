@@ -3,6 +3,7 @@ package com.hann.disasterguard.coreapp.data.remote
 import android.util.Log
 import com.hann.disasterguard.coreapp.data.remote.network.ApiResponse
 import com.hann.disasterguard.coreapp.data.remote.network.ApiService
+import com.hann.disasterguard.coreapp.data.remote.response.archive.ArchiveReportItem
 import com.hann.disasterguard.coreapp.data.remote.response.report.GeometryReportItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,23 @@ class RemoteDataSource constructor(private val apiService: ApiService) {
             try {
                 val response = apiService.getLiveReports(admin)
                 val dataArray = response.result.objects.output.geometries
+                if (dataArray.isNotEmpty()){
+                    emit(ApiResponse.Success(dataArray))
+                }else{
+                    emit(ApiResponse.Empty)
+                }
+            }catch (e:Exception){
+                emit(ApiResponse.Error(e.toString()))
+                Log.e("Remote Data Source", e.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getArchiveReport(start : String, end: String, city: String?, geoformat: String?): Flow<ApiResponse<List<ArchiveReportItem>>> {
+        return flow {
+            try {
+                val response = apiService.getArchiveReport(start,end, city, geoformat)
+                val dataArray = response.result.features
                 if (dataArray.isNotEmpty()){
                     emit(ApiResponse.Success(dataArray))
                 }else{

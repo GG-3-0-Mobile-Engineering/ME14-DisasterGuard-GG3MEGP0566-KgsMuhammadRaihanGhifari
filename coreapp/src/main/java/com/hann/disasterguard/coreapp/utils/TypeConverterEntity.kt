@@ -2,19 +2,10 @@ package com.hann.disasterguard.coreapp.utils
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.hann.disasterguard.coreapp.data.remote.response.report.Properties
+import com.hann.disasterguard.coreapp.data.remote.response.archive.Geometry
+import com.hann.disasterguard.coreapp.data.remote.response.archive.Properties
 
 class TypeConverterEntity {
-
-    @TypeConverter
-    fun fromCoordinates(coordinates: List<Double>?): String? {
-        return coordinates?.joinToString(",")
-    }
-
-    @TypeConverter
-    fun toCoordinates(coordinatesString: String?): List<Double>? {
-        return coordinatesString?.split(",")?.map { it.toDouble() }
-    }
 
     @TypeConverter
     fun fromProperties(properties: Properties?): String? {
@@ -25,5 +16,19 @@ class TypeConverterEntity {
     fun toProperties(propertiesJson: String?): Properties? {
         return Gson().fromJson(propertiesJson, Properties::class.java)
     }
+
+
+    @TypeConverter
+    fun fromGeometry(geometry: Geometry?): String? {
+        return Gson().toJson(geometry)
+    }
+
+    @TypeConverter
+    fun toGeometry(geometryJson: String?): Geometry? {
+        return Gson().fromJson(geometryJson, Geometry::class.java)
+    }
+
+
+
 
 }

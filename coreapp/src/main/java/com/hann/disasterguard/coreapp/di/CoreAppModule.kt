@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 
 val databaseModule =  module {
     factory {
-        get<DisasterGuardDatabase>().geometryReportDao()
+        get<DisasterGuardDatabase>().archiveReportDao()
     }
     single {
         Room.databaseBuilder(
