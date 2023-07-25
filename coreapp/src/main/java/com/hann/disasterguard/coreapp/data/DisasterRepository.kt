@@ -5,6 +5,7 @@ import com.hann.disasterguard.coreapp.data.remote.RemoteDataSource
 import com.hann.disasterguard.coreapp.data.remote.network.ApiResponse
 import com.hann.disasterguard.coreapp.data.remote.response.archive.ArchiveReportItem
 import com.hann.disasterguard.coreapp.domain.model.ArchiveReport
+import com.hann.disasterguard.coreapp.domain.model.GeometryFlood
 import com.hann.disasterguard.coreapp.domain.model.GeometryReport
 import com.hann.disasterguard.coreapp.domain.repository.IDisasterRepository
 import com.hann.disasterguard.coreapp.resource.Resource
@@ -65,5 +66,26 @@ class DisasterRepository constructor(
             }
         }.asFlow()
 
+    override fun getFloodLevel(): Flow<Resource<List<GeometryFlood>>>  = flow {
+        try {
+            emit(Resource.Loading())
+            when(val levelFlood = remoteDataSource.getFloodsLevel().first()){
+                is ApiResponse.Success -> {
+                    val data = DataMapper.mapResponseToDomainFlood(levelFlood.data)
+                    emit(Resource.Success(data))
+                }
+                is ApiResponse.Empty -> emit(Resource.Error("Disaster not found"))
+                is ApiResponse.Error -> emit(Resource.Error(levelFlood.errorMessage))
+            }
+        }catch (e: HttpException){
+            emit(
+                Resource.Error(
+                    e.localizedMessage ?: "An unexpected Error Occurred"
+                )
+            )
+        }catch (e: IOException){
+            emit(Resource.Error("Couldn't reach server. Check your internet server"))
+        }
+    }
 
 }

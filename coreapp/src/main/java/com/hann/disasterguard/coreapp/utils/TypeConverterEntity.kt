@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.hann.disasterguard.coreapp.data.remote.response.archive.Geometry
 import com.hann.disasterguard.coreapp.data.remote.response.archive.Properties
+import com.hann.disasterguard.coreapp.domain.model.GeometryFlood
 
 class TypeConverterEntity {
 
@@ -28,7 +29,15 @@ class TypeConverterEntity {
         return Gson().fromJson(geometryJson, Geometry::class.java)
     }
 
+    @TypeConverter
+    fun fromGeometryFlood(geometry: GeometryFlood?): String? {
+        return Gson().toJson(geometry)
+    }
 
+    @TypeConverter
+    fun toGeometryFlood(geometryJson: String?): GeometryFlood? {
+        return Gson().fromJson(geometryJson, GeometryFlood::class.java)
+    }
 
 
 }

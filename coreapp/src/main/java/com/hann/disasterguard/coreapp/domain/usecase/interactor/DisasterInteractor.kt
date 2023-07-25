@@ -1,6 +1,7 @@
 package com.hann.disasterguard.coreapp.domain.usecase.interactor
 
 import com.hann.disasterguard.coreapp.domain.model.ArchiveReport
+import com.hann.disasterguard.coreapp.domain.model.GeometryFlood
 import com.hann.disasterguard.coreapp.domain.model.GeometryReport
 import com.hann.disasterguard.coreapp.domain.repository.IDisasterRepository
 import com.hann.disasterguard.coreapp.domain.usecase.DisasterUseCase
@@ -21,5 +22,7 @@ class DisasterInteractor(private val iDisasterRepository: IDisasterRepository) :
     ): Flow<Resource<List<ArchiveReport>>> {
         return iDisasterRepository.getArchiveReport(start, end, city, geoformat)
     }
-
+    override fun getFloodLevel(): Flow<Resource<List<GeometryFlood>>> {
+       return iDisasterRepository.getFloodLevel()
+    }
 }

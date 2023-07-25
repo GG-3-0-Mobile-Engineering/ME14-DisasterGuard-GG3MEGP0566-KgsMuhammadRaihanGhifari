@@ -1,4 +1,4 @@
-package com.hann.disasterguard.presentation.main
+package com.hann.disasterguard.presentation.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,29 +9,25 @@ import com.hann.disasterguard.coreapp.resource.Resource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class MainViewModel(
+class MapViewModel(
     private val useCase: DisasterUseCase
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<MainState>()
-    val state : LiveData<MainState> = _state
+    private val _state = MutableLiveData<MapListState>()
+    val state : LiveData<MapListState> = _state
 
-    init {
-        getFloodLevel()
-    }
-
-    private fun getFloodLevel() {
-        useCase.getFloodLevel().onEach {
+     fun getReportLive(admin : String?) {
+        useCase.getLiveReport(admin).onEach {
                 result ->
             when(result){
                 is Resource.Loading -> {
-                    _state.value = MainState(isLoading = true)
+                    _state.value = MapListState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _state.value = MainState(error = result.message ?: "An unexpected Error occured")
+                    _state.value = MapListState(error = result.message ?: "An unexpected Error occured")
                 }
                 is Resource.Success -> {
-                    _state.value = MainState(flood = result.data ?: emptyList())
+                    _state.value = MapListState(map = result.data ?: emptyList())
                 }
             }
         }.launchIn(viewModelScope)

@@ -2,8 +2,10 @@ package com.hann.disasterguard.coreapp.utils
 
 import com.hann.disasterguard.coreapp.data.local.entity.ArchiveReportEntity
 import com.hann.disasterguard.coreapp.data.remote.response.archive.ArchiveReportItem
+import com.hann.disasterguard.coreapp.data.remote.response.flood.GeometryFloodItem
 import com.hann.disasterguard.coreapp.data.remote.response.report.GeometryReportItem
 import com.hann.disasterguard.coreapp.domain.model.ArchiveReport
+import com.hann.disasterguard.coreapp.domain.model.GeometryFlood
 import com.hann.disasterguard.coreapp.domain.model.GeometryReport
 
 object DataMapper {
@@ -15,6 +17,19 @@ object DataMapper {
                 type = it.type,
                 coordinates = it.coordinates,
                 properties = it.properties
+            )
+            geometryList.add(geometry)
+        }
+        return geometryList
+    }
+
+    fun mapResponseToDomainFlood(input: List<GeometryFloodItem>) :  List<GeometryFlood> {
+        val geometryList = ArrayList<GeometryFlood>()
+        input.map {
+            val geometry = GeometryFlood(
+                type = it.type,
+                properties = it.properties,
+                arcs = it.arcs
             )
             geometryList.add(geometry)
         }

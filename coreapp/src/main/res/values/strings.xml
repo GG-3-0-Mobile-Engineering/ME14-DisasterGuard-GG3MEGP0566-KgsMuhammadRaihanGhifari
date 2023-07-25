@@ -2,5 +2,26 @@
 <resources>
     <string name="image_disaster">image disaster</string>
     <string name="disaster_name">Disaster Name</string>
-    <string name="disaster_time">10 Febuari 2023 20:00 PM</string>
+    <string name="disaster_time">10 February 2023 20:00 PM</string>
+    <string name="image_disaster_type">Disaster Type</string>
+    <string name="disaster_name_type">Type Disaster</string>
+
+    <string-array name="data_type_disaster">
+        <item>Flood</item>
+        <item>Earthquake</item>
+        <item>Fire</item>
+        <item>Haze</item>
+        <item>Wind</item>
+        <item>Volcano</item>
+    </string-array>
+
+    <integer-array name="data_type_id">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </integer-array>
+
 </resources>

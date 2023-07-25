@@ -1,4 +1,4 @@
-package com.hann.disasterguard.presentation.main
+package com.hann.disasterguard.presentation.archive
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,32 +9,29 @@ import com.hann.disasterguard.coreapp.resource.Resource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class MainViewModel(
+class ArchiveViewModel(
     private val useCase: DisasterUseCase
 ) : ViewModel() {
 
-    private val _state = MutableLiveData<MainState>()
-    val state : LiveData<MainState> = _state
+    private val _state = MutableLiveData<ArchiveListState>()
+    val state : LiveData<ArchiveListState> = _state
 
-    init {
-        getFloodLevel()
-    }
-
-    private fun getFloodLevel() {
-        useCase.getFloodLevel().onEach {
+    fun getArchiveReport(start : String, end: String,city : String?, geoformat: String ) {
+        useCase.getArchiveReport(start, end, city, geoformat).onEach {
                 result ->
             when(result){
                 is Resource.Loading -> {
-                    _state.value = MainState(isLoading = true)
+                    _state.value = ArchiveListState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _state.value = MainState(error = result.message ?: "An unexpected Error occured")
+                    _state.value = ArchiveListState(error = result.message ?: "An unexpected Error occured")
                 }
                 is Resource.Success -> {
-                    _state.value = MainState(flood = result.data ?: emptyList())
+                    _state.value = ArchiveListState(report = result.data ?: emptyList())
                 }
             }
         }.launchIn(viewModelScope)
     }
 
 }
+

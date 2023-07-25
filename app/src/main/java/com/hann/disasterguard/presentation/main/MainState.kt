@@ -1,9 +1,9 @@
 package com.hann.disasterguard.presentation.main
 
-import com.hann.disasterguard.coreapp.domain.model.GeometryReport
+import com.hann.disasterguard.coreapp.domain.model.GeometryFlood
 
 data class MainState (
     val isLoading : Boolean = false,
-    val map: List<GeometryReport> = emptyList(),
+    val flood: List<GeometryFlood> = emptyList(),
     val error: String = ""
 )
