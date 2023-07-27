@@ -11,6 +11,7 @@ interface ApiService {
     @GET("reports")
     suspend fun getLiveReports(
         @Query("admin") admin: String? = null ,
+        @Query("disaster") disaster : String? = null
     ) : ReportsResponse
 
     @GET("reports/archive")

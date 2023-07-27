@@ -27,7 +27,7 @@ class ArchiveViewModel(
                     _state.value = ArchiveListState(error = result.message ?: "An unexpected Error occured")
                 }
                 is Resource.Success -> {
-                    _state.value = ArchiveListState(report = result.data ?: emptyList())
+                    _state.value = ArchiveListState(archive = result.data ?: emptyList())
                 }
             }
         }.launchIn(viewModelScope)

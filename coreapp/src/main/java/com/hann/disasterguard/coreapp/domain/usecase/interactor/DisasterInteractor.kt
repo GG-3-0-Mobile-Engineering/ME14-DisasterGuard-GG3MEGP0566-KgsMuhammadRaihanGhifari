@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 
 class DisasterInteractor(private val iDisasterRepository: IDisasterRepository) : DisasterUseCase {
 
-    override fun getLiveReport(admin: String?): Flow<Resource<List<GeometryReport>>> {
-        return iDisasterRepository.getLiveReport(admin)
+    override fun getLiveReport(admin: String?, disaster: String?): Flow<Resource<List<GeometryReport>>> {
+        return iDisasterRepository.getLiveReport(admin, disaster)
     }
 
     override fun getArchiveReport(

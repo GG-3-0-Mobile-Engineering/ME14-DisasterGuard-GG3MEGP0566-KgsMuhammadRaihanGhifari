@@ -9,16 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hann.disasterguard.coreapp.R
 import com.hann.disasterguard.coreapp.databinding.ItemLayoutReportBinding
-import com.hann.disasterguard.coreapp.domain.model.GeometryReport
+import com.hann.disasterguard.coreapp.domain.model.ArchiveReport
 import com.hann.disasterguard.coreapp.utils.DateFormatter
 import java.util.ArrayList
 
-class ReportAdapter : RecyclerView.Adapter<ReportAdapter.ViewHolder>() {
 
-    private var listData = ArrayList<GeometryReport>()
-    var onItemClick: ((GeometryReport) -> Unit)? = null
+class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.ViewHolder>() {
 
-    fun setData(newListData: List<GeometryReport>?) {
+    private var listData = ArrayList<ArchiveReport>()
+    var onItemClick: ((ArchiveReport) -> Unit)? = null
+
+    fun setData(newListData: List<ArchiveReport>?) {
         if (newListData == null) return
         val diffResult = DiffUtil.calculateDiff(MyDiffUtil(listData, newListData))
         listData.clear()
@@ -43,11 +44,12 @@ class ReportAdapter : RecyclerView.Adapter<ReportAdapter.ViewHolder>() {
 
         private val binding = ItemLayoutReportBinding.bind(itemView)
 
-        fun bind(data: GeometryReport) {
+        fun bind(data: ArchiveReport) {
             with(binding){
-                if (data.properties.image_url != null) {
+                if (data.properties.image_url != null ) {
                     Glide.with(itemView.context)
                         .load(data.properties.image_url)
+                        .placeholder(R.drawable.placeholder)
                         .into(itemReportImage)
                 } else {
                     val placeholderDrawable = ContextCompat.getDrawable(
@@ -69,7 +71,7 @@ class ReportAdapter : RecyclerView.Adapter<ReportAdapter.ViewHolder>() {
 
     }
 
-    class MyDiffUtil(private val oldList: List<GeometryReport>, private val newList: List<GeometryReport>): DiffUtil.Callback() {
+    class MyDiffUtil(private val oldList: List<ArchiveReport>, private val newList: List<ArchiveReport>): DiffUtil.Callback() {
         override fun getOldListSize() = oldList.size
         override fun getNewListSize() = newList.size
 

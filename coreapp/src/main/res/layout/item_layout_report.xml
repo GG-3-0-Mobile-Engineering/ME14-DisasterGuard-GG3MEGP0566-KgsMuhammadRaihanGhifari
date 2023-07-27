@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/item_report_image"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="140dp"
             android:scaleType="centerCrop"
             android:contentDescription="@string/image_disaster" />
 

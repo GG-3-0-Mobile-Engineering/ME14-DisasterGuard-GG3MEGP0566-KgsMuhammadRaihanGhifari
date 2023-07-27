@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.flowOn
 
 class RemoteDataSource constructor(private val apiService: ApiService) {
 
-    suspend fun getLiveReport(admin : String?): Flow<ApiResponse<List<GeometryReportItem>>> {
+    suspend fun getLiveReport(admin : String?, disaster: String?): Flow<ApiResponse<List<GeometryReportItem>>> {
         return flow {
             try {
-                val response = apiService.getLiveReports(admin)
+                val response = apiService.getLiveReports(admin, disaster)
                 val dataArray = response.result.objects.output.geometries
                 if (dataArray.isNotEmpty()){
                     emit(ApiResponse.Success(dataArray))

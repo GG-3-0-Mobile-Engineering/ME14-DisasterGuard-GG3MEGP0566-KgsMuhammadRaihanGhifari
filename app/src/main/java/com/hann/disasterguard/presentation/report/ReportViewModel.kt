@@ -17,11 +17,11 @@ class ReportViewModel(
     val state : LiveData<ReportListState> = _state
 
     init {
-        getReportLive(null)
+        getReportLive(null,null)
     }
 
-    fun getReportLive(admin : String?) {
-        useCase.getLiveReport(admin).onEach {
+    fun getReportLive(admin : String?, region: String?) {
+        useCase.getLiveReport(admin,region).onEach {
                 result ->
             when(result){
                 is Resource.Loading -> {

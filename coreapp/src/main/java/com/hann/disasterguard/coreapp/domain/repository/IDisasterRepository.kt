@@ -7,7 +7,7 @@ import com.hann.disasterguard.coreapp.resource.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface IDisasterRepository {
-    fun getLiveReport(admin :String?): Flow<Resource<List<GeometryReport>>>
+    fun getLiveReport(admin :String?, disaster: String?): Flow<Resource<List<GeometryReport>>>
 
     fun getArchiveReport(start : String, end : String, city : String?, geoformat: String?) : Flow<Resource<List<ArchiveReport>>>
     fun getFloodLevel() : Flow<Resource<List<GeometryFlood>>>

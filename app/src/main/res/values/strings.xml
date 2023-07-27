@@ -3,7 +3,6 @@
     <string name="title_settings">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="pref_key_theme">key_theme</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="something_wrong">Something wrong..</string>
     <string name="recent_disaster">Recent Disaster</string>
     <string name="empty_recent_disaster">No recent disasters</string>
@@ -16,4 +15,45 @@
     <string name="status_code_flood_3">Flood Between 71 To 150 Centimeter</string>
     <string name="status_code_flood_4">Flood More than 150 Centimeter</string>
     <string name="status_code_flood_not_valid">Flood is not valid</string>
+    <string name="archive_disaster_detail">Disaster data for the last month</string>
+    <string name="hint">Enter a region name</string>
+
+
+    <string-array name="province">
+        <item>Aceh</item>
+        <item>Bali</item>
+        <item>Kep Bangka Belitung</item>
+        <item>Banten</item>
+        <item>Bengkulu</item>
+        <item>Jawa Tengah</item>
+        <item>Kalimantan Tengah</item>
+        <item>Sulawesi Tengah</item>
+        <item>Jawa Timur</item>
+        <item>Kalimantan Timur</item>
+        <item>Nusa Tenggara Timur</item>
+        <item>Gorontalo</item>
+        <item>DKI Jakarta</item>
+        <item>Jambi</item>
+        <item>Lampung</item>
+        <item>Maluku</item>
+        <item>Kalimantan Utara</item>
+        <item>Maluku Utara</item>
+        <item>Sulawesi Utara</item>
+        <item>Sumatera Utara</item>
+        <item>Papua</item>
+        <item>Riau</item>
+        <item>Kep Riau</item>
+        <item>Sulawesi Tenggara</item>
+        <item>Kalimantan Selatan</item>
+        <item>Sulawesi Selatan</item>
+        <item>Sumatera Selatan</item>
+        <item>DI Yogyakarta</item>
+        <item>Jawa Barat</item>
+        <item>Kalimantan Barat</item>
+        <item>Nusa Tenggara Barat</item>
+        <item>Papua Barat</item>
+        <item>Sulawesi Barat</item>
+        <item>Sumatera Barat</item>
+    </string-array>
+
 </resources>

@@ -13,15 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.hann.disasterguard.coreapp.ui.ReportAdapter
+import com.hann.disasterguard.coreapp.ui.ArchiveAdapter
 import com.hann.disasterguard.databinding.FragmentArchiveBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 class ArchiveFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentArchiveBinding
     private val viewModel: ArchiveViewModel by viewModel()
-    private lateinit var adapter: ReportAdapter
+    private lateinit var adapter: ArchiveAdapter
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
     override fun onCreateView(
@@ -36,6 +35,24 @@ class ArchiveFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
+        viewModel.getArchiveReport("2023-07-01T00:00:00+0300","2023-07-25T00:00:00+0300", geoformat = "geojson", city = null)
+        viewModel.state.observe(this){
+            if (it.isLoading){
+                binding.shimmerLayoutFollow.startShimmer()
+                binding.shimmerLayoutFollow.visibility = View.VISIBLE
+            }
+            if (it.error.isNotBlank()){
+                binding.shimmerLayoutFollow.visibility = View.GONE
+                binding.viewErrorFollow.root.visibility = View.VISIBLE
+                binding.viewErrorFollow.tvError.text = it.error
+            }
+            if (it.archive.isNotEmpty()){
+                binding.shimmerLayoutFollow.stopShimmer()
+                binding.viewErrorFollow.root.visibility = View.GONE
+                binding.shimmerLayoutFollow.visibility = View.GONE
+                adapter.setData(it.archive)
+            }
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -77,7 +94,7 @@ class ArchiveFragment : BottomSheetDialogFragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = ReportAdapter()
+        adapter = ArchiveAdapter()
         binding.rvDisasterArchive.layoutManager = LinearLayoutManager(requireContext())
         binding.rvDisasterArchive.adapter = adapter
         binding.rvDisasterArchive.setHasFixedSize(false)

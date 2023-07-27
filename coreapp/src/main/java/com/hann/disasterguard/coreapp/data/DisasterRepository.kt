@@ -23,10 +23,10 @@ class DisasterRepository constructor(
 ):IDisasterRepository {
 
 
-    override fun getLiveReport(admin: String?): Flow<Resource<List<GeometryReport>>> = flow {
+    override fun getLiveReport(admin: String?, disaster: String?): Flow<Resource<List<GeometryReport>>> = flow {
         try {
             emit(Resource.Loading())
-            when(val liveReport = remoteDataSource.getLiveReport(admin).first()){
+            when(val liveReport = remoteDataSource.getLiveReport(admin,disaster).first()){
                 is ApiResponse.Success -> {
                     val data = DataMapper.mapResponseToDomainLive(liveReport.data)
                     emit(Resource.Success(data))

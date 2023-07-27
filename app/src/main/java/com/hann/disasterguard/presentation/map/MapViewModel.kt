@@ -16,8 +16,8 @@ class MapViewModel(
     private val _state = MutableLiveData<MapListState>()
     val state : LiveData<MapListState> = _state
 
-     fun getReportLive(admin : String?) {
-        useCase.getLiveReport(admin).onEach {
+     fun getReportLive(admin : String?, region: String?) {
+        useCase.getLiveReport(admin, region).onEach {
                 result ->
             when(result){
                 is Resource.Loading -> {

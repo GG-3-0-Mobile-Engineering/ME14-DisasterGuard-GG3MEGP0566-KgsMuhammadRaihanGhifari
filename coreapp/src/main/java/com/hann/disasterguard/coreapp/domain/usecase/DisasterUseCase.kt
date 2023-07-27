@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DisasterUseCase {
 
-    fun getLiveReport(admin :String?): Flow<Resource<List<GeometryReport>>>
+    fun getLiveReport(admin :String?,disaster: String?): Flow<Resource<List<GeometryReport>>>
 
     fun getArchiveReport(start : String, end : String, city : String?, geoformat: String?) : Flow<Resource<List<ArchiveReport>>>
 

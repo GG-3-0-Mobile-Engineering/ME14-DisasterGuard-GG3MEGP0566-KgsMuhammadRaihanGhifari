@@ -8,9 +8,10 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/linear_type_disaster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_700"
+        android:background="@color/black"
         android:orientation="horizontal"
         android:gravity="center"
         android:padding="8dp"

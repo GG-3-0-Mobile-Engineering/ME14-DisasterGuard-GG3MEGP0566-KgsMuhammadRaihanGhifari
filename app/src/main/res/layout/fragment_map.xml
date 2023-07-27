@@ -12,22 +12,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@android:layout/simple_gallery_item"
-        />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
-    <SearchView
-        android:id="@+id/search_report"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.cardview.widget.CardView
+       android:id="@+id/cl_auto_view"
+       app:layout_constraintTop_toTopOf="parent"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+       android:layout_margin="36dp">
+
+       <AutoCompleteTextView
+           android:id="@+id/auto_text_view_region"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:layout_constraintTop_toTopOf="parent"
+           android:focusableInTouchMode="true"
+           android:focusable="auto"
+           android:backgroundTint="@android:color/transparent"
+           android:hint="@string/hint"/>
+
+   </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_disaster_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/search_report"
+        app:layout_constraintTop_toBottomOf="@+id/cl_auto_view"
         app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/item_layout_disaster_type"
         android:orientation="horizontal"

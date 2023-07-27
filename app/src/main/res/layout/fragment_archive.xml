@@ -29,7 +29,17 @@
             android:layout_height="wrap_content"
             android:text="@string/archive_disaster"
             android:textAlignment="center"
+            android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@+id/subtract"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_detail_archive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/archive_disaster_detail"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@+id/tv_list_archive"
             android:textStyle="bold"/>
 
         <ImageView
@@ -38,7 +48,7 @@
             android:layout_height="10dp"
             android:src="@drawable/line"
             android:contentDescription="@string/line"
-            app:layout_constraintTop_toBottomOf="@+id/tv_list_archive"
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_archive"
             android:layout_marginTop="8dp"
             />
 
@@ -51,12 +61,8 @@
         android:layout_height="wrap_content"
         app:layout_anchor="@id/cl_top_report"
         app:layout_anchorGravity="bottom"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="84dp"
         >
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -99,7 +105,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
 
     </FrameLayout>
 
