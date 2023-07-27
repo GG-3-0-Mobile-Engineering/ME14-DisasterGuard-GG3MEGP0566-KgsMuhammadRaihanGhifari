@@ -32,6 +32,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val viewModel: MapViewModel by viewModel()
     private  var typeDisaster : String? = null
     private  var regionDisaster : String? = null
+    private var statusMap : Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,9 +70,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 val selectedText = s.toString().trim()
                 if (selectedText.isNotEmpty() && region.contains(selectedText)) {
-                    mMap.clear()
-                    regionDisaster = getRegionCode(selectedText)
-                    viewModel.getReportLive(regionDisaster,typeDisaster)
+                    if (statusMap){
+                        mMap.clear()
+                        regionDisaster = getRegionCode(selectedText)
+                        viewModel.getReportLive(regionDisaster,typeDisaster)
+                    }
                 }
             }
         })
@@ -102,7 +105,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(p0: GoogleMap) {
         mMap = p0
-
+        statusMap = true
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
