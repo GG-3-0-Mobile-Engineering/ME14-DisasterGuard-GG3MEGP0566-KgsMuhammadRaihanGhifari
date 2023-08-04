@@ -1,5 +1,6 @@
 package com.hann.disasterguard.presentation.map
 
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -52,6 +54,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         initRecyclerView()
         initListRegion()
         getListType()
+
+        binding.apply {
+            btnSettings.setOnClickListener {
+                startActivity(
+                    Intent(requireContext(), Class.forName("com.hann.disasterguard.settings.SettingActivity"))
+                )
+            }
+        }
     }
 
     private fun initListRegion() {
@@ -173,7 +183,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun setMapStyle() {
         try {
-            mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            val preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            val shouldNotify = preferences.getBoolean(requireContext().getString(R.string.pref_key_theme), false)
+            if (shouldNotify){
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style_night))
+            }else{
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            }
+
         } catch (_: Resources.NotFoundException) {
         }
     }
