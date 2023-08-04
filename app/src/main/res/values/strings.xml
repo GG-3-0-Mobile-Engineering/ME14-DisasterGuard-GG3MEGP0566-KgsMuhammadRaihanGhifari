@@ -17,6 +17,10 @@
     <string name="status_code_flood_not_valid">Flood is not valid</string>
     <string name="archive_disaster_detail">Disaster data for the last month</string>
     <string name="hint">Enter a region name</string>
+    <string name="close">Close</string>
+    <string name="rv_disaster_title">List Disaster Live</string>
+    <string name="button_filter">button filter</string>
+    <string name="button_setting">button setting</string>
 
 
     <string-array name="province">

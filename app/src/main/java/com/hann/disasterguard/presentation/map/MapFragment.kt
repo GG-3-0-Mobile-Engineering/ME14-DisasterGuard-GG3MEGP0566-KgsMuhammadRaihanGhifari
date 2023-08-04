@@ -2,14 +2,15 @@ package com.hann.disasterguard.presentation.map
 
 import android.content.res.Resources
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -56,26 +57,57 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun initListRegion() {
         val region = resources.getStringArray(R.array.province)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, region)
-        binding.autoTextViewRegion.setAdapter(adapter)
+        binding.lvArea.adapter = adapter
 
-        binding.autoTextViewRegion.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+        binding.apply {
+            svSearchLocation.setOnCloseListener{
+                binding.btnSettings.visibility = View.VISIBLE
+                binding.btnFilter.visibility = View.VISIBLE
+                true
             }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            svSearchLocation.setOnSearchClickListener {
+                binding.btnSettings.visibility = View.GONE
+                binding.btnFilter.visibility = View.GONE
             }
+        }
 
-            override fun afterTextChanged(s: Editable?) {
-
-                val selectedText = s.toString().trim()
-                if (selectedText.isNotEmpty() && region.contains(selectedText)) {
-                    if (statusMap){
-                        mMap.clear()
-                        regionDisaster = getRegionCode(selectedText)
-                        viewModel.getReportLive(regionDisaster,typeDisaster)
-                    }
+        binding.svSearchLocation.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (region.contains(query)){
+                    mMap.clear()
+                    regionDisaster = query?.let { getRegionCode(it) }
+                    viewModel.getReportLive(regionDisaster,typeDisaster)
+                }else{
+                    Toast.makeText(requireContext(), "Masukan Area", Toast.LENGTH_SHORT).show()
                 }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
+                    binding.cvListArea.visibility = View.GONE
+                    binding.btnSettings.visibility = View.VISIBLE
+                    binding.btnFilter.visibility = View.VISIBLE
+
+                } else if (newText.isNotEmpty()) {
+                    binding.cvListArea.visibility = View.VISIBLE
+                    binding.btnSettings.visibility = View.GONE
+                    binding.btnFilter.visibility = View.GONE
+                    adapter.filter.filter(newText)
+
+                    binding.lvArea.onItemClickListener =
+                        AdapterView.OnItemClickListener { adapterView, _, position, _ ->
+                            val selectedItem = adapterView.getItemAtPosition(position) as String
+                            binding.svSearchLocation.setQuery(selectedItem, true)
+                            binding.cvListArea.visibility = View.GONE
+                            binding.btnSettings.visibility = View.VISIBLE
+                            binding.btnFilter.visibility = View.VISIBLE
+                            mMap.clear()
+                            regionDisaster = getRegionCode(selectedItem)
+                            viewModel.getReportLive(regionDisaster,typeDisaster)
+                        }
+                }
+                return false
             }
         })
     }
