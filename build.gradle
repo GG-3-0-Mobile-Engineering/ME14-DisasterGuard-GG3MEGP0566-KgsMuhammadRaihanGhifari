@@ -1,9 +1,10 @@
 buildscript {
-    ext.koin_version= "3.3.2"
-    ext.koin_android_version= "3.3.2"
-    ext.koin_android_compose_version= "3.4.1"
-    ext.koin_ktor= "3.3.0"
 
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
+    }
 }
 
 

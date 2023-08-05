@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -16,13 +17,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hann.disasterguard.R
 import com.hann.disasterguard.coreapp.ui.ReportAdapter
 import com.hann.disasterguard.databinding.FragmentReportBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class ReportFragment : BottomSheetDialogFragment()  {
 
     private lateinit var binding: FragmentReportBinding
     private lateinit var adapter: ReportAdapter
-    private val viewModel: ReportViewModel by viewModel()
+    private val viewModel: ReportViewModel by viewModels()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
     override fun onCreateView(
@@ -68,32 +71,38 @@ class ReportFragment : BottomSheetDialogFragment()  {
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet = bottomSheetDialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let {
+                val originHeight = (0.3f * resources.displayMetrics.heightPixels).toInt()
                 val layoutParams = it.layoutParams as ViewGroup.LayoutParams
                 layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
                 it.layoutParams = layoutParams
 
                 bottomSheetBehavior = BottomSheetBehavior.from(it)
-                bottomSheet.minimumHeight = 350
+                bottomSheetBehavior.isHideable = false
+                bottomSheetBehavior.peekHeight = originHeight
 
-                bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                    override fun onStateChanged(view: View, newState: Int) {
-                        when (newState) {
-                            BottomSheetBehavior.STATE_COLLAPSED -> Log.d(TAG, "Collapsed")
-                            BottomSheetBehavior.STATE_DRAGGING -> Log.d(TAG, "Dragging")
-                            BottomSheetBehavior.STATE_EXPANDED -> Log.d(TAG, "Expanded")
-                            BottomSheetBehavior.STATE_HALF_EXPANDED -> Log.d(TAG, "Half Expanded")
-                            BottomSheetBehavior.STATE_HIDDEN -> {
-                                Log.d(TAG, "Hidden")
-                                dismiss()
+                bottomSheetBehavior.apply {
+                    state = BottomSheetBehavior.STATE_COLLAPSED
+                    addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                        override fun onStateChanged(view: View, newState: Int) {
+                            when (newState) {
+                                BottomSheetBehavior.STATE_COLLAPSED -> Log.d(TAG, "Collapsed")
+                                BottomSheetBehavior.STATE_DRAGGING -> Log.d(TAG, "Dragging")
+                                BottomSheetBehavior.STATE_EXPANDED -> binding.slideDownBtn.visibility = View.VISIBLE
+                                BottomSheetBehavior.STATE_HALF_EXPANDED -> Log.d(TAG, "Half Expanded")
+                                BottomSheetBehavior.STATE_HIDDEN -> {
+                                    Log.d(TAG, "Hidden")
+                                }
+                                BottomSheetBehavior.STATE_SETTLING -> Log.d(TAG, "Settling")
                             }
-                            BottomSheetBehavior.STATE_SETTLING -> Log.d(TAG, "Settling")
                         }
-                    }
 
-                    override fun onSlide(view: View, v: Float) {
-                        // Do nothing for the slide event
-                    }
-                })
+                        override fun onSlide(view: View, v: Float) {
+                            if (v > originHeight) {
+                                state = BottomSheetBehavior.STATE_EXPANDED
+                            }
+                        }
+                    })
+                }
             }
         }
 

@@ -1,23 +1,19 @@
 package com.hann.disasterguard.presentation.di
 
-import com.hann.disasterguard.presentation.archive.ArchiveViewModel
-import com.hann.disasterguard.presentation.main.MainViewModel
-import com.hann.disasterguard.presentation.map.MapViewModel
-import com.hann.disasterguard.presentation.report.ReportViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+import com.hann.disasterguard.coreapp.domain.usecase.DisasterUseCase
+import com.hann.disasterguard.coreapp.domain.usecase.interactor.DisasterInteractor
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
-val viewModelModule = module {
-    viewModel {
-        ReportViewModel(get())
-    }
-    viewModel {
-        MapViewModel(get())
-    }
-    viewModel {
-        MainViewModel(get())
-    }
-    viewModel {
-        ArchiveViewModel(get())
-    }
+@Module
+@InstallIn(ViewModelComponent::class)
+abstract class AppModule {
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideDisasterUseCase(disasterInteractor: DisasterInteractor): DisasterUseCase
+
 }

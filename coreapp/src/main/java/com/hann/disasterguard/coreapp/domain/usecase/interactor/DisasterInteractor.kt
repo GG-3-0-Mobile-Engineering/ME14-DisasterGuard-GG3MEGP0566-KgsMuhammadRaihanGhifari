@@ -7,8 +7,9 @@ import com.hann.disasterguard.coreapp.domain.repository.IDisasterRepository
 import com.hann.disasterguard.coreapp.domain.usecase.DisasterUseCase
 import com.hann.disasterguard.coreapp.resource.Resource
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class DisasterInteractor(private val iDisasterRepository: IDisasterRepository) : DisasterUseCase {
+class DisasterInteractor @Inject constructor(private val iDisasterRepository: IDisasterRepository) : DisasterUseCase {
 
     override fun getLiveReport(admin: String?, disaster: String?): Flow<Resource<List<GeometryReport>>> {
         return iDisasterRepository.getLiveReport(admin, disaster)

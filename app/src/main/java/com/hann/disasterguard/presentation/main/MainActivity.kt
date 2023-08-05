@@ -1,8 +1,8 @@
 package com.hann.disasterguard.presentation.main
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
@@ -15,13 +15,15 @@ import com.hann.disasterguard.notification.NotificationWorker
 import com.hann.disasterguard.presentation.archive.ArchiveFragment
 import com.hann.disasterguard.presentation.map.MapFragment
 import com.hann.disasterguard.presentation.report.ReportFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
-    private val mainViewModel : MainViewModel by viewModel()
+    private val mainViewModel : MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
 
         mainViewModel.state.observe(this){
-
             if (it.flood.isNotEmpty()){
                 val workManager = WorkManager.getInstance(this)
                 val flood = TypeConverterEntity().fromGeometryFlood(it.flood[0])
@@ -53,21 +54,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+        val reportFragment = ReportFragment()
+        reportFragment.show(supportFragmentManager, reportFragment.tag)
+
         binding.apply {
             icDisasterLive.setOnClickListener {
-                val reportFragment = ReportFragment()
-                reportFragment.show(supportFragmentManager, reportFragment.tag)
-            }
-            icSetting.setOnClickListener {
-                startActivity(Intent(this@MainActivity,
-                    Class.forName("com.hann.disasterguard.settings.SettingActivity")))
+
             }
             icDisasterArchive.setOnClickListener {
                 val archiveFragment = ArchiveFragment()
                 archiveFragment.show(supportFragmentManager, archiveFragment.tag)
             }
         }
-
     }
 
 

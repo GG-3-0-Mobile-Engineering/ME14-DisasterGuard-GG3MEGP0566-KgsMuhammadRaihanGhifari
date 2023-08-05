@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,14 +26,15 @@ import com.hann.disasterguard.R
 import com.hann.disasterguard.coreapp.domain.model.DisasterType
 import com.hann.disasterguard.coreapp.ui.DisasterTypeAdapter
 import com.hann.disasterguard.databinding.FragmentMapBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding :FragmentMapBinding
     private lateinit var mMap : GoogleMap
     private lateinit var adapter: DisasterTypeAdapter
-    private val viewModel: MapViewModel by viewModel()
+    private val viewModel: MapViewModel by viewModels()
     private  var typeDisaster : String? = null
     private  var regionDisaster : String? = null
     private var statusMap : Boolean = false

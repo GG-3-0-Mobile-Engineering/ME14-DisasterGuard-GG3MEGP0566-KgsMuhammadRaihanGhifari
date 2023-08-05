@@ -9,17 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hann.disasterguard.coreapp.ui.ArchiveAdapter
 import com.hann.disasterguard.databinding.FragmentArchiveBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+
+@AndroidEntryPoint
 class ArchiveFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentArchiveBinding
-    private val viewModel: ArchiveViewModel by viewModel()
+    private val viewModel: ArchiveViewModel by viewModels()
     private lateinit var adapter: ArchiveAdapter
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 

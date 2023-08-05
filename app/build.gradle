@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 apply from: '../shared_dependencies.gradle'
@@ -51,4 +52,5 @@ android {
 dependencies {
     implementation project(":coreapp")
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 }
