@@ -1,9 +1,9 @@
 package com.hann.disasterguard.presentation.map
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.hann.disasterguard.R
 import com.hann.disasterguard.coreapp.domain.model.DisasterType
 import com.hann.disasterguard.coreapp.ui.DisasterTypeAdapter
+import com.hann.disasterguard.coreapp.utils.Utils
 import com.hann.disasterguard.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,6 +39,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private  var typeDisaster : String? = null
     private  var regionDisaster : String? = null
     private var statusMap : Boolean = false
+    private lateinit var dialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,12 +49,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        dialog = Dialog(requireContext())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dialog = Dialog(requireContext())
         initRecyclerView()
         initListRegion()
         getListType()
@@ -161,10 +165,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         viewModel.state.observe(viewLifecycleOwner){
             if (it.isLoading){
-                Log.d("map loading", "map loading")
+                Utils.showLoading(dialog)
             }
             if (it.error.isNotBlank()){
-                Log.d("map error", "map error")
+                Utils.hideLoading(dialog)
             }
             if (it.map.isNotEmpty()){
                 for (i in it.map){
@@ -176,9 +180,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .alpha(0.8f)
                     )
                 }
+                Utils.hideLoading(dialog)
             }
             if (it.map.isEmpty()){
-                Log.d("map empty", it.map.toString())
+                Utils.hideLoading(dialog)
             }
         }
     }
