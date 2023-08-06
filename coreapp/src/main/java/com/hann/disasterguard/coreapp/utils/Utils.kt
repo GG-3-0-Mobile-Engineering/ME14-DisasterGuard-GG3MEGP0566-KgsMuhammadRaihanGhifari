@@ -18,4 +18,11 @@ object Utils {
     fun hideLoading(dialog : Dialog){
         dialog.dismiss()
     }
+
+    fun showPeriodeDisasterDialog(dialog : Dialog){
+        dialog.setContentView(R.layout.dialog_date)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.show()
+    }
 }
