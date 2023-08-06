@@ -27,10 +27,10 @@ class MapViewModel @Inject constructor(
                     _state.value = MapListState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _state.value = MapListState(error = result.message ?: "An unexpected Error occured")
+                    _state.value = MapListState(error = result.message ?: "An unexpected Error occured", isLoading = false)
                 }
                 is Resource.Success -> {
-                    _state.value = MapListState(map = result.data ?: emptyList())
+                    _state.value = MapListState(map = result.data ?: emptyList(), isLoading = false)
                 }
             }
         }.launchIn(viewModelScope)

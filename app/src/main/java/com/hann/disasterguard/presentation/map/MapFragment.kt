@@ -19,6 +19,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
@@ -66,6 +67,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 startActivity(
                     Intent(requireContext(), Class.forName("com.hann.disasterguard.settings.SettingActivity"))
                 )
+            }
+            btnFilter.setOnClickListener {
+                Utils.showPeriodeDisasterDialog(dialog)
             }
         }
     }
@@ -168,21 +172,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Utils.showLoading(dialog)
             }
             if (it.error.isNotBlank()){
-                Utils.hideLoading(dialog)
+                Toast.makeText(requireContext(), it.error, Toast.LENGTH_SHORT).show()
             }
             if (it.map.isNotEmpty()){
                 for (i in it.map){
+                    var markerColour = 0f
+                    when(i.properties.disaster_type){
+                        "flood" -> markerColour = BitmapDescriptorFactory.HUE_AZURE
+                        "earthquake" -> markerColour = BitmapDescriptorFactory.HUE_ORANGE
+                        "fire" -> markerColour = BitmapDescriptorFactory.HUE_RED
+                        "haze" -> markerColour = BitmapDescriptorFactory.HUE_VIOLET
+                        "wind" -> markerColour = BitmapDescriptorFactory.HUE_CYAN
+                        "volcano" -> markerColour = BitmapDescriptorFactory.HUE_YELLOW
+                    }
                     mMap.addMarker(
                         MarkerOptions()
                             .position(LatLng(i.coordinates[1], i.coordinates[0]))
                             .title(i.properties.disaster_type)
                             .snippet(i.properties.text)
+                            .icon(BitmapDescriptorFactory.defaultMarker(markerColour))
                             .alpha(0.8f)
                     )
                 }
-                Utils.hideLoading(dialog)
             }
-            if (it.map.isEmpty()){
+            if (!it.isLoading){
                 Utils.hideLoading(dialog)
             }
         }
