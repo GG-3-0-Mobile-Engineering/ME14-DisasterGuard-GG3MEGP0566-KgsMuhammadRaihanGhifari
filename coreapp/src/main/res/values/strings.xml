@@ -5,6 +5,12 @@
     <string name="disaster_time">10 February 2023 20:00 PM</string>
     <string name="image_disaster_type">Disaster Type</string>
     <string name="disaster_name_type">Type Disaster</string>
+    <string name="load_location">Load Location…</string>
+    <string name="disaster_periode">Look for disasters within a certain period</string>
+    <string name="button_start_date">Button Start Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="find_disaster">Find Disaster</string>
 
     <string-array name="data_type_disaster">
         <item>Flood</item>

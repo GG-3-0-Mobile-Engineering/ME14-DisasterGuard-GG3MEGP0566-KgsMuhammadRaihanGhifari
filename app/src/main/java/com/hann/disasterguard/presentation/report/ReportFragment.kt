@@ -41,26 +41,25 @@ class ReportFragment : BottomSheetDialogFragment()  {
 
         initRecyclerView()
         viewModel.state.observe(viewLifecycleOwner){
-        if (it.isLoading){
+            if (it.isLoading){
                 binding.shimmerLayoutFollow.startShimmer()
                 binding.shimmerLayoutFollow.visibility = View.VISIBLE
             }
             if (it.error.isNotBlank()){
-                binding.shimmerLayoutFollow.visibility = View.GONE
                 binding.viewErrorFollow.root.visibility = View.VISIBLE
                 binding.viewErrorFollow.tvError.text = it.error
             }
             if (it.report.isNotEmpty()){
-                binding.shimmerLayoutFollow.stopShimmer()
                 binding.viewErrorFollow.root.visibility = View.GONE
-                binding.shimmerLayoutFollow.visibility = View.GONE
                 adapter.setData(it.report)
             }
             if (it.report.isEmpty()){
-                binding.shimmerLayoutFollow.stopShimmer()
-                binding.shimmerLayoutFollow.visibility = View.GONE
                 binding.viewErrorFollow.root.visibility = View.VISIBLE
                 binding.viewErrorFollow.tvError.text = getString(R.string.empty_recent_disaster)
+            }
+            if (!it.isLoading){
+                binding.shimmerLayoutFollow.stopShimmer()
+                binding.shimmerLayoutFollow.visibility = View.GONE
             }
         }
     }

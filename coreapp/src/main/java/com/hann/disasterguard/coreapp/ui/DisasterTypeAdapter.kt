@@ -1,5 +1,6 @@
 package com.hann.disasterguard.coreapp.ui
 
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
@@ -49,13 +50,19 @@ class DisasterTypeAdapter : RecyclerView.Adapter<DisasterTypeAdapter.ViewHolder>
             with(binding){
                 itemTypeTitle.text = data.title
             }
-
+            val nightModeFlags = itemView.context.resources.configuration.uiMode and
+                    Configuration.UI_MODE_NIGHT_MASK
             if (selectedItemPosition == position){
                 val drawable: Drawable? = ContextCompat.getDrawable(itemView.context, R.color.color_700)
                 binding.linearTypeDisaster.background = drawable
             }else{
-                val drawable: Drawable? = ContextCompat.getDrawable(itemView.context, R.color.black)
-                binding.linearTypeDisaster.background = drawable
+                if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES ){
+                    val drawable: Drawable? = ContextCompat.getDrawable(itemView.context, R.color.black)
+                    binding.linearTypeDisaster.background = drawable
+                }else{
+                    val drawable: Drawable? = ContextCompat.getDrawable(itemView.context, R.color.color_500)
+                    binding.linearTypeDisaster.background = drawable
+                }
             }
         }
 

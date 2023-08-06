@@ -31,10 +31,10 @@ class ReportViewModel @Inject constructor(
                     _state.value = ReportListState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _state.value = ReportListState(error = result.message ?: "An unexpected Error occured")
+                    _state.value = ReportListState(error = result.message ?: "An unexpected Error occured", isLoading = false)
                 }
                 is Resource.Success -> {
-                    _state.value = ReportListState(report = result.data ?: emptyList())
+                    _state.value = ReportListState(report = result.data ?: emptyList(), isLoading = false)
                 }
             }
         }.launchIn(viewModelScope)
