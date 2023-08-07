@@ -8,42 +8,75 @@
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
 
         <ImageView
-            android:id="@+id/item_report_image"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:id="@+id/iv_disaster_item"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/image_disaster" />
-
-        <TextView
-            android:id="@+id/item_report_title"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:gravity="start"
-            android:textSize="14sp"
-            android:text="@string/disaster_name"
-            android:textColor="@color/black"
+            android:contentDescription="@string/disaster_name_type"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
         <TextView
-            android:id="@+id/item_report_date"
+            android:id="@+id/tv_title_disaster_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/title"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/iv_disaster_item"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+        <TextView
+            android:id="@+id/tv_date_disaster_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/disaster_name_type"
+            app:layout_constraintStart_toEndOf="@+id/iv_disaster_item"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_disaster_item" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:text="@string/disaster_time"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="start" />
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
 
-    </LinearLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_disaster_item">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cv_disaster_type_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tv_type_disaster_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/disaster_name_type"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/color_200"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.cardview.widget.CardView>

@@ -1,5 +1,6 @@
 package com.hann.disasterguard.coreapp.ui
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,16 +51,22 @@ class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.ViewHolder>() {
                     Glide.with(itemView.context)
                         .load(data.properties.image_url)
                         .placeholder(R.drawable.placeholder)
-                        .into(itemReportImage)
+                        .into(ivDisasterItem)
                 } else {
                     val placeholderDrawable = ContextCompat.getDrawable(
                         itemView.context,
                         getCategoryDisaster(data.properties.disaster_type)
                     )
-                    itemReportImage.setImageDrawable(placeholderDrawable)
+                    ivDisasterItem.setImageDrawable(placeholderDrawable)
                 }
-                itemReportTitle.text = data.properties.disaster_type
-                itemReportDate.text = DateFormatter.formatDate(data.properties.created_at)
+                if (data.properties.title != null){
+                    tvTitleDisasterItem.text = data.properties.title.toString()
+                }else{
+                    tvTitleDisasterItem.text = itemView.context.getString(R.string.empty_title)
+                }
+                cvDisasterTypeItem.background = getTypeDisaster(data.properties.disaster_type, itemView)
+                tvTypeDisasterItem.text = data.properties.disaster_type
+                tvDateDisasterItem.text = DateFormatter.formatDate(data.properties.created_at)
             }
         }
 
@@ -93,6 +100,18 @@ class ArchiveAdapter : RecyclerView.Adapter<ArchiveAdapter.ViewHolder>() {
             "wind" ->R.drawable.wind
             "volcano" ->R.drawable.volcano
             else -> R.drawable.flood
+        }
+    }
+
+    private fun getTypeDisaster(disasterType: String, view: View): Drawable? {
+        return when (disasterType) {
+            "flood" -> ContextCompat.getDrawable(view.context, R.color.azure)
+            "earthquake" -> ContextCompat.getDrawable(view.context, R.color.orange)
+            "fire" -> ContextCompat.getDrawable(view.context, R.color.red)
+            "haze" ->ContextCompat.getDrawable(view.context, R.color.violet)
+            "wind" -> ContextCompat.getDrawable(view.context, R.color.cyan)
+            "volcano" ->ContextCompat.getDrawable(view.context, R.color.yellow)
+            else -> ContextCompat.getDrawable(view.context, R.color.black)
         }
     }
 }

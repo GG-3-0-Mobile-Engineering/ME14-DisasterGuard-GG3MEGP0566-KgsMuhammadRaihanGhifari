@@ -11,6 +11,8 @@
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
     <string name="find_disaster">Find Disaster</string>
+    <string name="title">Title</string>
+    <string name="empty_title">Tidak ada title</string>
 
     <string-array name="data_type_disaster">
         <item>Flood</item>
