@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:padding="8dp">
 
-
         <ImageView
             android:id="@+id/iv_disaster_item"
             android:layout_width="100dp"
