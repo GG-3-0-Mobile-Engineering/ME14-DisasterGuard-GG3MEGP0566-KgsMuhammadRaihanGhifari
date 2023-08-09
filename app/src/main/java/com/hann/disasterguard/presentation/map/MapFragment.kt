@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
@@ -23,9 +21,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.hann.disasterguard.R
 import com.hann.disasterguard.coreapp.domain.model.DisasterType
 import com.hann.disasterguard.coreapp.ui.DisasterTypeAdapter
+import com.hann.disasterguard.coreapp.ui.ReportAdapter
 import com.hann.disasterguard.coreapp.utils.Utils
 import com.hann.disasterguard.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +41,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private  var regionDisaster : String? = null
     private var statusMap : Boolean = false
     private lateinit var dialog: Dialog
+    private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var arrowImageView: ImageView
+    private lateinit var mBottomSheetLayout: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,12 +53,34 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        dialog = Dialog(requireContext())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mBottomSheetLayout = binding.sheet.bottomSheetLayout
+        sheetBehavior = BottomSheetBehavior.from(mBottomSheetLayout)
+        arrowImageView =  binding.sheet.bottomSheetArrow
+
+        // Arrow image changes its state to expanded and collapsed
+        arrowImageView.setOnClickListener {
+            if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            } else {
+                sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
+
+        // When we slide, it rotates the image to 180 degrees,
+        // if it's downside it rotates to upside else vice-versa
+        sheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {}
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                arrowImageView.rotation = slideOffset * 180
+            }
+        })
 
         dialog = Dialog(requireContext())
         initRecyclerView()
