@@ -21,6 +21,8 @@
     <string name="rv_disaster_title">List Disaster Live</string>
     <string name="button_filter">button filter</string>
     <string name="button_setting">button setting</string>
+    <string name="show_off">show_off</string>
+    <string name="list_bencana_terkini">List Bencana Terkini</string>
 
 
     <string-array name="province">

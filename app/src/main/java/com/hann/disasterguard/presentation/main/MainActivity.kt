@@ -12,9 +12,7 @@ import com.hann.disasterguard.coreapp.utils.NOTIFICATION_CHANNEL_ID
 import com.hann.disasterguard.coreapp.utils.TypeConverterEntity
 import com.hann.disasterguard.databinding.ActivityMainBinding
 import com.hann.disasterguard.notification.NotificationWorker
-import com.hann.disasterguard.presentation.archive.ArchiveFragment
 import com.hann.disasterguard.presentation.map.MapFragment
-import com.hann.disasterguard.presentation.report.ReportFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -53,21 +51,6 @@ class MainActivity : AppCompatActivity() {
                 workManager.enqueue(workRequest)
             }
         }
-
-
-        val reportFragment = ReportFragment()
-        reportFragment.show(supportFragmentManager, reportFragment.tag)
-
-        binding.apply {
-            icDisasterLive.setOnClickListener {
-
-            }
-            icDisasterArchive.setOnClickListener {
-                val archiveFragment = ArchiveFragment()
-                archiveFragment.show(supportFragmentManager, archiveFragment.tag)
-            }
-        }
     }
-
 
 }
