@@ -33,10 +33,10 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getArchiveReport(start : String, end: String, city: String?, geoformat: String?): Flow<ApiResponse<List<ArchiveReportItem>>> {
+    suspend fun getArchiveReport(start : String, end: String, geoformat: String?): Flow<ApiResponse<List<ArchiveReportItem>>> {
         return flow {
             try {
-                val response = apiService.getArchiveReport(start,end, city, geoformat)
+                val response = apiService.getArchiveReport(start,end, geoformat)
                 val dataArray = response.result.features
                 if (dataArray.isNotEmpty()){
                     emit(ApiResponse.Success(dataArray))

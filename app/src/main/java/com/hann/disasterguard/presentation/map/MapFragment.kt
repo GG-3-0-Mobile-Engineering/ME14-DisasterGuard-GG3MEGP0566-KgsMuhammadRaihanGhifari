@@ -22,13 +22,16 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.hann.disasterguard.R
 import com.hann.disasterguard.coreapp.domain.model.DisasterType
 import com.hann.disasterguard.coreapp.ui.DisasterTypeAdapter
-import com.hann.disasterguard.coreapp.ui.ReportAdapter
 import com.hann.disasterguard.coreapp.utils.Utils
 import com.hann.disasterguard.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -44,6 +47,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var arrowImageView: ImageView
     private lateinit var mBottomSheetLayout: LinearLayout
+    private lateinit var startDate : String
+    private lateinit var endDate : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +64,108 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        dialog = Dialog(requireContext())
+        bottomSheet()
+        initRecyclerView()
+        initListRegion()
+        getListType()
+
+        binding.apply {
+            btnSettings.setOnClickListener {
+                startActivity(
+                    Intent(requireContext(), Class.forName("com.hann.disasterguard.settings.SettingActivity"))
+                )
+            }
+            btnDate.setOnClickListener {
+                startDate()
+            }
+        }
+    }
+
+    private fun startDate() {
+        Utils.toastInfo(requireActivity(), "Start Date", "Please Enter Start Date")
+        val datePicker= MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Please Enter Star date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+        datePicker.addOnPositiveButtonClickListener {
+            startDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).format(
+                Date(it)
+            )
+            endDate()
+        }
+        datePicker.show(parentFragmentManager, "tag")
+    }
+
+    private fun endDate(){
+        Utils.toastInfo(requireActivity(), "End Date", "Please Enter End Date")
+        val datePicker= MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Please Enter End date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+        datePicker.addOnPositiveButtonClickListener {
+            endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).format(
+                Date(it)
+            )
+            getDataArchive()
+        }
+        datePicker.show(parentFragmentManager, "tag")
+    }
+
+    private fun getDataArchive() {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+        val date1 = dateFormat.parse(startDate)
+        val date2 = dateFormat.parse(endDate)
+
+        val comparison = date1?.compareTo(date2)
+
+        if (comparison != null) {
+            when {
+                comparison < 0 -> viewModel.getArchiveReport(startDate, endDate, geoformat = "geojson")
+                comparison == 0 -> Utils.toastInfo(requireActivity(), "Equals Date", "Date cannot be the same")
+                else ->Utils.toastFailed(requireActivity(), "Failed Date", "Start date value cannot be greater than date end")
+            }
+        }
+
+        viewModel.stateArchive.observe(this){
+            if (it.isLoading){
+                Utils.showLoading(dialog)
+            }
+            if (it.error.isNotBlank()){
+                Toast.makeText(requireContext(), it.error, Toast.LENGTH_SHORT).show()
+            }
+            if (it.archive.isNotEmpty()){
+                for (i in it.archive){
+                    var markerColour = 0f
+                    when(i.properties.disaster_type){
+                        "flood" -> markerColour = BitmapDescriptorFactory.HUE_AZURE
+                        "earthquake" -> markerColour = BitmapDescriptorFactory.HUE_ORANGE
+                        "fire" -> markerColour = BitmapDescriptorFactory.HUE_RED
+                        "haze" -> markerColour = BitmapDescriptorFactory.HUE_VIOLET
+                        "wind" -> markerColour = BitmapDescriptorFactory.HUE_CYAN
+                        "volcano" -> markerColour = BitmapDescriptorFactory.HUE_YELLOW
+                    }
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(i.geometry.coordinates[1], i.geometry.coordinates[0]))
+                            .title(i.properties.disaster_type)
+                            .snippet(i.properties.text)
+                            .icon(BitmapDescriptorFactory.defaultMarker(markerColour))
+                            .alpha(0.8f)
+                    )
+                }
+            }
+            if (!it.isLoading){
+                Utils.hideLoading(dialog)
+            }
+        }
+
+    }
+
+
+    private fun bottomSheet() {
         mBottomSheetLayout = binding.sheet.bottomSheetLayout
         sheetBehavior = BottomSheetBehavior.from(mBottomSheetLayout)
         arrowImageView =  binding.sheet.bottomSheetArrow
@@ -81,22 +188,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 arrowImageView.rotation = slideOffset * 180
             }
         })
-
-        dialog = Dialog(requireContext())
-        initRecyclerView()
-        initListRegion()
-        getListType()
-
-        binding.apply {
-            btnSettings.setOnClickListener {
-                startActivity(
-                    Intent(requireContext(), Class.forName("com.hann.disasterguard.settings.SettingActivity"))
-                )
-            }
-            btnFilter.setOnClickListener {
-                Utils.showPeriodeDisasterDialog(dialog)
-            }
-        }
     }
 
     private fun initListRegion() {
@@ -107,12 +198,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         binding.apply {
             svSearchLocation.setOnCloseListener{
                 binding.btnSettings.visibility = View.VISIBLE
-                binding.btnFilter.visibility = View.VISIBLE
+                binding.btnDate.visibility = View.VISIBLE
                 true
             }
             svSearchLocation.setOnSearchClickListener {
                 binding.btnSettings.visibility = View.GONE
-                binding.btnFilter.visibility = View.GONE
+                binding.btnDate.visibility = View.GONE
             }
         }
 
@@ -132,12 +223,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 if (newText.isEmpty()) {
                     binding.cvListArea.visibility = View.GONE
                     binding.btnSettings.visibility = View.VISIBLE
-                    binding.btnFilter.visibility = View.VISIBLE
+                    binding.btnDate.visibility = View.VISIBLE
 
                 } else if (newText.isNotEmpty()) {
                     binding.cvListArea.visibility = View.VISIBLE
                     binding.btnSettings.visibility = View.GONE
-                    binding.btnFilter.visibility = View.GONE
+                    binding.btnDate.visibility = View.GONE
                     adapter.filter.filter(newText)
 
                     binding.lvArea.onItemClickListener =
@@ -146,7 +237,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             binding.svSearchLocation.setQuery(selectedItem, true)
                             binding.cvListArea.visibility = View.GONE
                             binding.btnSettings.visibility = View.VISIBLE
-                            binding.btnFilter.visibility = View.VISIBLE
+                            binding.btnDate.visibility = View.VISIBLE
                             mMap.clear()
                             regionDisaster = getRegionCode(selectedItem)
                             viewModel.getReportLive(regionDisaster,typeDisaster)

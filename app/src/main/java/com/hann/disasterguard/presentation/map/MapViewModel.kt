@@ -19,6 +19,9 @@ class MapViewModel @Inject constructor(
     private val _state = MutableLiveData<MapListState>()
     val state : LiveData<MapListState> = _state
 
+    private val _stateArchive = MutableLiveData<ArchiveListState>()
+    val stateArchive : LiveData<ArchiveListState> = _stateArchive
+
      fun getReportLive(admin : String?, region: String?) {
         useCase.getLiveReport(admin, region).onEach {
                 result ->
@@ -31,6 +34,23 @@ class MapViewModel @Inject constructor(
                 }
                 is Resource.Success -> {
                     _state.value = MapListState(map = result.data ?: emptyList(), isLoading = false)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getArchiveReport(start : String, end: String, geoformat: String ) {
+        useCase.getArchiveReport(start, end, geoformat).onEach {
+                result ->
+            when(result){
+                is Resource.Loading -> {
+                    _stateArchive.value = ArchiveListState(isLoading = true)
+                }
+                is Resource.Error -> {
+                    _stateArchive.value = ArchiveListState(error = result.message ?: "An unexpected Error occured")
+                }
+                is Resource.Success -> {
+                    _stateArchive.value = ArchiveListState(archive = result.data ?: emptyList())
                 }
             }
         }.launchIn(viewModelScope)

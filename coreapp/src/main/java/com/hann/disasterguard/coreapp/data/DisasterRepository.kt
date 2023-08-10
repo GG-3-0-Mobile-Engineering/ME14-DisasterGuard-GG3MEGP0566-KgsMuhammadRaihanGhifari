@@ -48,7 +48,7 @@ class DisasterRepository @Inject constructor(
         }
     }
 
-    override fun getArchiveReport(start: String, end: String, city: String?, geoformat: String?
+    override fun getArchiveReport(start: String, end: String, geoformat: String?
     ): Flow<Resource<List<ArchiveReport>>>  =
         object : NetworkBoundResource<List<ArchiveReport>, List<ArchiveReportItem>>(){
             override fun loadFromDB(): Flow<List<ArchiveReport>> {
@@ -61,7 +61,7 @@ class DisasterRepository @Inject constructor(
                 true
 
             override suspend fun createCall(): Flow<ApiResponse<List<ArchiveReportItem>>> =
-                remoteDataSource.getArchiveReport(start, end, city, geoformat)
+                remoteDataSource.getArchiveReport(start, end, geoformat)
 
             override suspend fun saveCallResult(data: List<ArchiveReportItem>) {
                 val geometryReport = DataMapper.mapResponsesToEntitiesArchive(data)

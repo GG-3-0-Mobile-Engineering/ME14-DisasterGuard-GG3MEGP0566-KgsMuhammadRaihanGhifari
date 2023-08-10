@@ -18,10 +18,9 @@ class DisasterInteractor @Inject constructor(private val iDisasterRepository: ID
     override fun getArchiveReport(
         start: String,
         end: String,
-        city: String?,
         geoformat: String?
     ): Flow<Resource<List<ArchiveReport>>> {
-        return iDisasterRepository.getArchiveReport(start, end, city, geoformat)
+        return iDisasterRepository.getArchiveReport(start, end,  geoformat)
     }
     override fun getFloodLevel(): Flow<Resource<List<GeometryFlood>>> {
        return iDisasterRepository.getFloodLevel()

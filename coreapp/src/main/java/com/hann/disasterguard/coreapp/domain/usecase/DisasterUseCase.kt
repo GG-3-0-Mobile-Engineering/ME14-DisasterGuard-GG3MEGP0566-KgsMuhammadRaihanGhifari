@@ -10,7 +10,7 @@ interface DisasterUseCase {
 
     fun getLiveReport(admin :String?,disaster: String?): Flow<Resource<List<GeometryReport>>>
 
-    fun getArchiveReport(start : String, end : String, city : String?, geoformat: String?) : Flow<Resource<List<ArchiveReport>>>
+    fun getArchiveReport(start : String, end : String, geoformat: String?) : Flow<Resource<List<ArchiveReport>>>
 
     fun getFloodLevel() : Flow<Resource<List<GeometryFlood>>>
 }

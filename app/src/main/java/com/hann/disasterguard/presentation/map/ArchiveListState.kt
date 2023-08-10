@@ -1,4 +1,4 @@
-package com.hann.disasterguard.presentation.archive
+package com.hann.disasterguard.presentation.map
 
 import com.hann.disasterguard.coreapp.domain.model.ArchiveReport
 

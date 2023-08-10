@@ -18,7 +18,6 @@ interface ApiService {
     suspend fun getArchiveReport(
         @Query("start") start: String,
         @Query("end") end: String,
-        @Query("city") city: String?,
         @Query("geoformat") geoformat: String?
     ) : ArchiveResponse
     @GET("floods?minimum_state=1")
