@@ -1,9 +1,12 @@
 package com.hann.disasterguard.coreapp.utils
 
+import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import com.hann.disasterguard.coreapp.R
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 object Utils {
 
@@ -19,10 +22,27 @@ object Utils {
         dialog.dismiss()
     }
 
-    fun showPeriodeDisasterDialog(dialog : Dialog){
-        dialog.setContentView(R.layout.dialog_date)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    fun toastInfo(context: Activity, title : String, message: String){
+        MotionToast.createToast(
+            context,
+            title,
+            message,
+            MotionToastStyle.INFO,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            null
+        )
+    }
 
-        dialog.show()
+    fun toastFailed(context: Activity,title : String, message: String){
+        MotionToast.createToast(
+            context,
+            title,
+            message,
+            MotionToastStyle.ERROR,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            null
+        )
     }
 }
