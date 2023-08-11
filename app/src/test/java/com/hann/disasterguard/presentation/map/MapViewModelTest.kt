@@ -39,6 +39,7 @@ class MapViewModelTest {
     private lateinit var disasterUseCase: DisasterUseCase
 
     private val dummyMapSuccessfully = DataDummy.generateDummyListGeometryReport()
+    private val dummyArchiveSuccessfully = DataDummy.generateDummyListArchiveReport()
 
     @Before
     fun setUp(){
@@ -61,5 +62,22 @@ class MapViewModelTest {
         }
     }
 
+    @Test
+    fun `get archive disaster successfully`() = runTest {
+        val mockArchiveList = dummyArchiveSuccessfully
+        val expected = flowOf(Resource.Success(mockArchiveList))
+
+        `when`(disasterUseCase.getArchiveReport("2023-08-09T07:00:00:0700",
+            "2023-08-11T07:00:00:0700", geoformat = "geojson")).thenReturn(expected)
+
+        mapViewModel.getArchiveReport("2023-08-09T07:00:00:0700",
+            "2023-08-11T07:00:00:0700", geoformat = "geojson")
+
+        val resultData = mapViewModel.stateArchive.value
+
+        expected.collect {
+            assertEquals(mockArchiveList, resultData?.archive )
+        }
+    }
 
 }

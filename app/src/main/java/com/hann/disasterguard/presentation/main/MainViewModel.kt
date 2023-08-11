@@ -23,7 +23,7 @@ class MainViewModel @Inject constructor(
         getFloodLevel()
     }
 
-    private fun getFloodLevel() {
+     fun getFloodLevel() {
         useCase.getFloodLevel().onEach {
                 result ->
             when(result){
