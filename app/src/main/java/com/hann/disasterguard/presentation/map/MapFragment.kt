@@ -26,6 +26,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.hann.disasterguard.R
 import com.hann.disasterguard.coreapp.domain.model.DisasterType
 import com.hann.disasterguard.coreapp.ui.DisasterTypeAdapter
+import com.hann.disasterguard.coreapp.ui.ReportAdapter
 import com.hann.disasterguard.coreapp.utils.Utils
 import com.hann.disasterguard.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +40,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding :FragmentMapBinding
     private lateinit var mMap : GoogleMap
     private lateinit var adapter: DisasterTypeAdapter
+    private lateinit var reportAdapter: ReportAdapter
     private val viewModel: MapViewModel by viewModels()
     private  var typeDisaster : String? = null
     private  var regionDisaster : String? = null
@@ -269,6 +271,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             typeDisaster = it.title.lowercase()
             viewModel.getReportLive(regionDisaster, typeDisaster)
         }
+
+        reportAdapter = ReportAdapter()
+        binding.sheet.rvDisasterReport.layoutManager = LinearLayoutManager(requireContext())
+        binding.sheet.rvDisasterReport.adapter = reportAdapter
+        binding.sheet.rvDisasterReport.setHasFixedSize(false)
+        reportAdapter.onItemClick = {
+
+        }
     }
 
     override fun onMapReady(p0: GoogleMap) {
@@ -286,11 +296,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         viewModel.state.observe(viewLifecycleOwner){
             if (it.isLoading){
                 Utils.showLoading(dialog)
+                binding.sheet.shimmerLayoutFollow.visibility = View.VISIBLE
             }
             if (it.error.isNotBlank()){
+                binding.sheet.shimmerLayoutFollow.visibility = View.GONE
+                binding.sheet.viewErrorFollow.tvError.visibility = View.VISIBLE
                 Toast.makeText(requireContext(), it.error, Toast.LENGTH_SHORT).show()
             }
             if (it.map.isNotEmpty()){
+                reportAdapter.setData(it.map)
                 for (i in it.map){
                     var markerColour = 0f
                     when(i.properties.disaster_type){
@@ -312,6 +326,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
             }
             if (!it.isLoading){
+                binding.sheet.shimmerLayoutFollow.visibility = View.GONE
+                binding.sheet.viewErrorFollow.tvError.visibility = View.GONE
                 Utils.hideLoading(dialog)
             }
         }

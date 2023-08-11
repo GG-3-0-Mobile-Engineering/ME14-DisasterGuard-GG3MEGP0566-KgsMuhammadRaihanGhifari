@@ -55,8 +55,7 @@
 
         <include
             android:id="@+id/view_error_follow"
-            layout="@layout/view_error"
-            android:visibility="gone"/>
+            layout="@layout/view_error"/>
 
         <com.facebook.shimmer.ShimmerFrameLayout
             app:layout_constraintTop_toTopOf="parent"
