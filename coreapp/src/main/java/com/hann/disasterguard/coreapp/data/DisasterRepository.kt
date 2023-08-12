@@ -34,7 +34,7 @@ class DisasterRepository @Inject constructor(
                     val data = DataMapper.mapResponseToDomainLive(liveReport.data)
                     emit(Resource.Success(data))
                 }
-                is ApiResponse.Empty -> emit(Resource.Error("Disaster not found"))
+                is ApiResponse.Empty -> emit(Resource.Error("Live Disaster not found"))
                 is ApiResponse.Error -> emit(Resource.Error(liveReport.errorMessage))
             }
         }catch (e: HttpException){
@@ -77,7 +77,7 @@ class DisasterRepository @Inject constructor(
                     val data = DataMapper.mapResponseToDomainFlood(levelFlood.data)
                     emit(Resource.Success(data))
                 }
-                is ApiResponse.Empty -> emit(Resource.Error("Disaster not found"))
+                is ApiResponse.Empty -> emit(Resource.Error("Flood Disaster not found"))
                 is ApiResponse.Error -> emit(Resource.Error(levelFlood.errorMessage))
             }
         }catch (e: HttpException){
