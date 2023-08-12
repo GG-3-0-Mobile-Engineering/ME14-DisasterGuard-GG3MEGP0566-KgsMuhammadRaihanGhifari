@@ -17,10 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.hann.disasterguard.R
@@ -51,6 +48,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mBottomSheetLayout: LinearLayout
     private lateinit var startDate : String
     private lateinit var endDate : String
+    private val boundsBuilder = LatLngBounds.Builder()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -156,6 +154,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .snippet(i.properties.text)
                             .icon(BitmapDescriptorFactory.defaultMarker(markerColour))
                             .alpha(0.8f)
+                    )
+                    boundsBuilder.include(LatLng(i.geometry.coordinates[1], i.geometry.coordinates[0]))
+
+                    val bounds: LatLngBounds = boundsBuilder.build()
+                    mMap.animateCamera(
+                        CameraUpdateFactory.newLatLngBounds(
+                            bounds,
+                            resources.displayMetrics.widthPixels,
+                            resources.displayMetrics.heightPixels,
+                            300
+                        )
                     )
                 }
             }
@@ -322,6 +331,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .snippet(i.properties.text)
                             .icon(BitmapDescriptorFactory.defaultMarker(markerColour))
                             .alpha(0.8f)
+                    )
+
+                    boundsBuilder.include(LatLng(i.coordinates[1], i.coordinates[0]))
+
+                    val bounds: LatLngBounds = boundsBuilder.build()
+                    mMap.animateCamera(
+                        CameraUpdateFactory.newLatLngBounds(
+                            bounds,
+                            resources.displayMetrics.widthPixels,
+                            resources.displayMetrics.heightPixels,
+                            300
+                        )
                     )
                 }
             }
