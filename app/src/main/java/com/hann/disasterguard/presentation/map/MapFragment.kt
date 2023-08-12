@@ -3,6 +3,7 @@ package com.hann.disasterguard.presentation.map
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,9 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -21,9 +24,12 @@ import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.hann.disasterguard.R
+import com.hann.disasterguard.coreapp.domain.model.ArchiveReport
 import com.hann.disasterguard.coreapp.domain.model.DisasterType
+import com.hann.disasterguard.coreapp.domain.model.GeometryReport
 import com.hann.disasterguard.coreapp.ui.DisasterTypeAdapter
 import com.hann.disasterguard.coreapp.ui.ReportAdapter
+import com.hann.disasterguard.coreapp.utils.DateFormatter
 import com.hann.disasterguard.coreapp.utils.Utils
 import com.hann.disasterguard.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -147,7 +153,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         "wind" -> markerColour = BitmapDescriptorFactory.HUE_CYAN
                         "volcano" -> markerColour = BitmapDescriptorFactory.HUE_YELLOW
                     }
-                    mMap.addMarker(
+
+
+                    val marker =  mMap.addMarker(
                         MarkerOptions()
                             .position(LatLng(i.geometry.coordinates[1], i.geometry.coordinates[0]))
                             .title(i.properties.disaster_type)
@@ -155,8 +163,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .icon(BitmapDescriptorFactory.defaultMarker(markerColour))
                             .alpha(0.8f)
                     )
-                    boundsBuilder.include(LatLng(i.geometry.coordinates[1], i.geometry.coordinates[0]))
 
+                    boundsBuilder.include(LatLng(i.geometry.coordinates[1], i.geometry.coordinates[0]))
                     val bounds: LatLngBounds = boundsBuilder.build()
                     mMap.animateCamera(
                         CameraUpdateFactory.newLatLngBounds(
@@ -166,6 +174,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             300
                         )
                     )
+                    marker?.tag = i
+
+                    mMap.setOnMarkerClickListener { clickedMarker ->
+                        if (clickedMarker.tag != null){
+                            val data = clickedMarker.tag as ArchiveReport
+                            setDataMarker(data)
+                        }
+                        true
+                    }
                 }
             }
             if (!it.isLoading){
@@ -174,6 +191,56 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
     }
+
+    private fun setDataMarker(archive : ArchiveReport) {
+           binding.cvMarkerItem.visibility = View.VISIBLE
+           if (archive.properties.image_url != null ) {
+               Glide.with(requireContext())
+                   .load(archive.properties.image_url)
+                   .placeholder(com.hann.disasterguard.coreapp.R.drawable.placeholder)
+                   .into(binding.ivDisasterMarker)
+           } else {
+               val placeholderDrawable = ContextCompat.getDrawable(
+                   requireContext(),
+                   getCategoryDisaster(archive.properties.disaster_type)
+               )
+               binding.ivDisasterMarker.setImageDrawable(placeholderDrawable)
+           }
+           if (archive.properties.title != null){
+               binding.tvTitleDisasterMarker.text = archive.properties.title.toString()
+           }else{
+               binding.tvTitleDisasterMarker.text = requireActivity().getString(com.hann.disasterguard.coreapp.R.string.empty_title)
+           }
+           binding.cvDisasterTypeMarker.background = getTypeDisaster(archive.properties.disaster_type, requireView())
+           binding.tvTypeDisasterMarker.text = archive.properties.disaster_type
+           binding.tvDateDisasterMarker.text = DateFormatter.formatDate(archive.properties.created_at)
+
+    }
+
+    private fun getTypeDisaster(disasterType: String, view: View): Drawable? {
+        return when (disasterType) {
+            "flood" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.azure)
+            "earthquake" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.orange)
+            "fire" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.red)
+            "haze" ->ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.violet)
+            "wind" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.cyan)
+            "volcano" ->ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.yellow)
+            else -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.black)
+        }
+    }
+
+    private fun getCategoryDisaster(disasterType: String): Int {
+        return when (disasterType) {
+            "flood" -> com.hann.disasterguard.coreapp.R.drawable.flood
+            "earthquake" -> com.hann.disasterguard.coreapp.R.drawable.earthquake
+            "fire" -> com.hann.disasterguard.coreapp.R.drawable.fire
+            "haze" -> com.hann.disasterguard.coreapp.R.drawable.haze
+            "wind" -> com.hann.disasterguard.coreapp.R.drawable.wind
+            "volcano" -> com.hann.disasterguard.coreapp.R.drawable.volcano
+            else -> com.hann.disasterguard.coreapp.R.drawable.flood
+        }
+    }
+
 
 
     private fun bottomSheet() {
@@ -324,7 +391,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         "wind" -> markerColour = BitmapDescriptorFactory.HUE_CYAN
                         "volcano" -> markerColour = BitmapDescriptorFactory.HUE_YELLOW
                     }
-                    mMap.addMarker(
+                    val marker =  mMap.addMarker(
                         MarkerOptions()
                             .position(LatLng(i.coordinates[1], i.coordinates[0]))
                             .title(i.properties.disaster_type)
@@ -344,6 +411,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             300
                         )
                     )
+
+                    marker?.tag = i
+
+                    mMap.setOnMarkerClickListener { clickedMarker ->
+                        if (clickedMarker.tag != null){
+                            val data = clickedMarker.tag as GeometryReport
+                            setDataMarkerReport(data)
+                        }
+                        true
+                    }
                 }
             }
             if (!it.isLoading){
@@ -352,6 +429,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Utils.hideLoading(dialog)
             }
         }
+    }
+
+    private fun setDataMarkerReport(data: GeometryReport) {
+        binding.cvMarkerItem.visibility = View.VISIBLE
+        if (data.properties.image_url != null ) {
+            Glide.with(requireContext())
+                .load(data.properties.image_url)
+                .placeholder(com.hann.disasterguard.coreapp.R.drawable.placeholder)
+                .into(binding.ivDisasterMarker)
+        } else {
+            val placeholderDrawable = ContextCompat.getDrawable(
+                requireContext(),
+                getCategoryDisaster(data.properties.disaster_type)
+            )
+            binding.ivDisasterMarker.setImageDrawable(placeholderDrawable)
+        }
+        if (data.properties.title != null){
+            binding.tvTitleDisasterMarker.text = data.properties.title
+        }else{
+            binding.tvTitleDisasterMarker.text = requireActivity().getString(com.hann.disasterguard.coreapp.R.string.empty_title)
+        }
+        binding.cvDisasterTypeMarker.background = getTypeDisaster(data.properties.disaster_type, requireView())
+        binding.tvTypeDisasterMarker.text = data.properties.disaster_type
+        binding.tvDateDisasterMarker.text = DateFormatter.formatDate(data.properties.created_at)
     }
 
     private fun setMapStyle() {

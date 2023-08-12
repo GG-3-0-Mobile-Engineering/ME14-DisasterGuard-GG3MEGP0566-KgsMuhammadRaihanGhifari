@@ -1,47 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="8dp"
+app:cardCornerRadius="8dp"
+app:cardElevation="4dp"
+app:cardUseCompatPadding="true">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    app:cardUseCompatPadding="true">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/iv_disaster_item"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/disaster_name_type"
+        android:background="#44000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_title_disaster_item"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical">
+        android:layout_marginStart="8dp"
+        android:background="#22000000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iv_disaster_item"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-        <ImageView
+    <TextView
+        android:id="@+id/tv_date_disaster_item"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="#33000000"
+        app:layout_constraintStart_toEndOf="@+id/iv_disaster_item"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_disaster_item" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_disaster_item">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cv_disaster_type_item"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:scaleType="centerCrop"
-            android:background= "#7F000000"
-            android:contentDescription="@string/image_disaster" />
+            android:layout_height="match_parent"
+            android:padding="4dp">
 
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:gravity="start"
-            android:textSize="14sp"
-            android:background="#22000000"
-            android:textColor="@color/black"
-            />
+            <TextView
+                android:id="@+id/tv_type_disaster_item"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:background="#33000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/color_200"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:background="#22000000"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="start" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.cardview.widget.CardView>
