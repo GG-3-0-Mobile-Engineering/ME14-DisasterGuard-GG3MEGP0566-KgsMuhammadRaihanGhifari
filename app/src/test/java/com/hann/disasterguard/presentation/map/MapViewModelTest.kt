@@ -59,6 +59,8 @@ class MapViewModelTest {
 
         expected.collect {
             assertEquals(mockReportList, resultData?.map )
+            assertEquals(false, resultData?.isLoading )
+            assertEquals("", resultData?.error )
         }
     }
 
@@ -77,6 +79,8 @@ class MapViewModelTest {
 
         expected.collect {
             assertEquals(mockArchiveList, resultData?.archive )
+            assertEquals(false, resultData?.isLoading )
+            assertEquals("", resultData?.error )
         }
     }
 
