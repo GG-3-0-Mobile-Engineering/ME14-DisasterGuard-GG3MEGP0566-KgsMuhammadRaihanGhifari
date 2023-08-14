@@ -4,8 +4,13 @@ buildscript {
         classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
+        classpath "org.jacoco:org.jacoco.core:0.8.8"
+    }
+    allprojects{
+        apply plugin: 'jacoco'
     }
 }
+
 
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -15,3 +20,4 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
     id 'com.android.dynamic-feature' version '7.4.1' apply false
 }
+

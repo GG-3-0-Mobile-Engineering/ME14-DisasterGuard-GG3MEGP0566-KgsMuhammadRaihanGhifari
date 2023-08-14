@@ -8,7 +8,7 @@
         <dist:delivery>
             <dist:on-demand />
         </dist:delivery>
-
+        <dist:removable dist:value="true" />
         <dist:fusing dist:include="true" />
     </dist:module>
 

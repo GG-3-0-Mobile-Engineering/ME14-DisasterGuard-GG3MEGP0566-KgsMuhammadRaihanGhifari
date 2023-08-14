@@ -7,6 +7,7 @@ plugins {
 }
 
 apply from: '../shared_dependencies.gradle'
+apply from: "$project.rootDir/jacoco.gradle"
 
 android {
     namespace 'com.hann.disasterguard'
@@ -48,6 +49,8 @@ android {
     }
     dynamicFeatures = [':settings']
 }
+
+
 
 dependencies {
     implementation project(":coreapp")
