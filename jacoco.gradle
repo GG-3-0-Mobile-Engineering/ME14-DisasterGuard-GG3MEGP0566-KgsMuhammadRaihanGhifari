@@ -36,12 +36,6 @@ def setupAndroidReporting() {
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
                 def fileFilter = [
-                        // data binding
-                        'android/databinding/**/*.class',
-                        '**/android/databinding/*Binding.class',
-                        '**/android/databinding/*',
-                        '**/androidx/databinding/*',
-                        '**/BR.*',
                         // android
                         '**/R.class',
                         '**/R$*.class',
