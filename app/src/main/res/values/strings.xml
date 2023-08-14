@@ -23,6 +23,10 @@
     <string name="button_setting">button setting</string>
     <string name="show_off">show_off</string>
     <string name="list_bencana_terkini">List Bencana Terkini</string>
+    <string name="enter_start_date">Please Enter Star date</string>
+    <string name="enter_start">OK Start Date</string>
+    <string name="enter_end_date">Please Enter End date</string>
+    <string name="find_archive">Find Archive</string>
 
 
     <string-array name="province">

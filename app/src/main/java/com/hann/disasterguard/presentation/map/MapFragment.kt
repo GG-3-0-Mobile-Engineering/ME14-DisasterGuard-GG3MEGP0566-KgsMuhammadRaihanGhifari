@@ -93,9 +93,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun startDate() {
         Utils.toastInfo(requireActivity(), "Start Date", "Please Enter Start Date")
         val datePicker= MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Please Enter Star date")
+            .setTitleText(getString(R.string.enter_start_date))
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setPositiveButtonText(getString(R.string.enter_start))
             .build()
+
         datePicker.addOnPositiveButtonClickListener {
             startDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).format(
                 Date(it)
@@ -108,8 +110,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun endDate(){
         Utils.toastInfo(requireActivity(), "End Date", "Please Enter End Date")
         val datePicker= MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Please Enter End date")
+            .setTitleText(getString(R.string.enter_end_date))
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setPositiveButtonText(getString(R.string.find_archive))
             .build()
         datePicker.addOnPositiveButtonClickListener {
             endDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()).format(
@@ -129,7 +132,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         if (comparison != null) {
             when {
-                comparison < 0 -> viewModel.getArchiveReport(startDate, endDate, geoformat = "geojson")
+                comparison < 0 -> {
+                    mMap.clear()
+                    viewModel.getArchiveReport(startDate, endDate, geoformat = "geojson")
+                }
                 comparison == 0 -> Utils.toastInfo(requireActivity(), "Equals Date", "Date cannot be the same")
                 else ->Utils.toastFailed(requireActivity(), "Failed Date", "Start date value cannot be greater than date end")
             }
@@ -138,6 +144,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         viewModel.stateArchive.observe(this){
             if (it.isLoading){
                 Utils.showLoading(dialog)
+                binding.cvMarkerItem.visibility = View.GONE
             }
             if (it.error.isNotBlank()){
                 Toast.makeText(requireContext(), it.error, Toast.LENGTH_SHORT).show()
@@ -289,7 +296,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (region.contains(query)){
                     mMap.clear()
-                    regionDisaster = query?.let { getRegionCode(it) }
+                    regionDisaster = query?.let { Utils.getRegionCode(it) }
                     viewModel.getReportLive(regionDisaster,typeDisaster)
                 }else{
                     Toast.makeText(requireContext(), "Masukan Area", Toast.LENGTH_SHORT).show()
@@ -317,7 +324,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             binding.btnSettings.visibility = View.VISIBLE
                             binding.btnDate.visibility = View.VISIBLE
                             mMap.clear()
-                            regionDisaster = getRegionCode(selectedItem)
+                            regionDisaster = Utils.getRegionCode(selectedItem)
                             viewModel.getReportLive(regionDisaster,typeDisaster)
                         }
                 }
@@ -373,6 +380,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             if (it.isLoading){
                 Utils.showLoading(dialog)
                 binding.sheet.shimmerLayoutFollow.visibility = View.VISIBLE
+                binding.cvMarkerItem.visibility = View.GONE
             }
             if (it.error.isNotBlank()){
                 binding.sheet.shimmerLayoutFollow.visibility = View.GONE
@@ -466,46 +474,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
         } catch (_: Resources.NotFoundException) {
-        }
-    }
-
-    private fun getRegionCode(region: String): String {
-        return when (region) {
-            "Aceh" -> "ID-AC"
-            "Bali" -> "ID-BA"
-            "Kep Bangka Belitung" -> "ID-BB"
-            "Banten" -> "ID-BT"
-            "Bengkulu" -> "ID-BE"
-            "Jawa Tengah" -> "ID-JT"
-            "Kalimantan Tengah" -> "ID-KT"
-            "Sulawesi Tengah" -> "ID-ST"
-            "Jawa Timur" -> "ID-JI"
-            "Kalimantan Timur" -> "ID-KI"
-            "Nusa Tenggara Timur" -> "ID-NT"
-            "Gorontalo" -> "ID-GO"
-            "DKI Jakarta" -> "ID-JK"
-            "Jambi" -> "ID-JA"
-            "Lampung" -> "ID-LA"
-            "Maluku" -> "ID-MA"
-            "Kalimantan Utara" -> "ID-KU"
-            "Maluku Utara" -> "ID-MU"
-            "Sulawesi Utara" -> "ID-SA"
-            "Sumatera Utara" -> "ID-SU"
-            "Papua" -> "ID-PA"
-            "Riau" -> "ID-RI"
-            "Kep Riau" -> "ID-KR"
-            "Sulawesi Tenggara" -> "ID-SG"
-            "Kalimantan Selatan" -> "ID-KS"
-            "Sulawesi Selatan" -> "ID-SN"
-            "Sumatera Selatan" -> "ID-SS"
-            "DI Yogyakarta" -> "ID-YO"
-            "Jawa Barat" -> "ID-JB"
-            "Kalimantan Barat" -> "ID-KB"
-            "Nusa Tenggara Barat" -> "ID-NB"
-            "Papua Barat" -> "ID-PB"
-            "Sulawesi Barat" -> "ID-SR"
-            "Sumatera Barat" -> "ID-SB"
-            else -> "ID-JK"
         }
     }
 

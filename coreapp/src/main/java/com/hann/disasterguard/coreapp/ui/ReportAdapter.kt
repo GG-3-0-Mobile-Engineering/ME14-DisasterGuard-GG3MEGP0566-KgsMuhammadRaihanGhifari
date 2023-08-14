@@ -12,6 +12,7 @@ import com.hann.disasterguard.coreapp.R
 import com.hann.disasterguard.coreapp.databinding.ItemLayoutReportBinding
 import com.hann.disasterguard.coreapp.domain.model.GeometryReport
 import com.hann.disasterguard.coreapp.utils.DateFormatter
+import com.hann.disasterguard.coreapp.utils.Utils
 import java.util.ArrayList
 
 class ReportAdapter : RecyclerView.Adapter<ReportAdapter.ViewHolder>() {
@@ -53,7 +54,7 @@ class ReportAdapter : RecyclerView.Adapter<ReportAdapter.ViewHolder>() {
                 } else {
                     val placeholderDrawable = ContextCompat.getDrawable(
                         itemView.context,
-                        getCategoryDisaster(data.properties.disaster_type)
+                        Utils.getCategoryDisaster(data.properties.disaster_type)
                     )
                     ivDisasterItem.setImageDrawable(placeholderDrawable)
                 }
@@ -62,7 +63,7 @@ class ReportAdapter : RecyclerView.Adapter<ReportAdapter.ViewHolder>() {
                 }else{
                     tvTitleDisasterItem.text = itemView.context.getString(R.string.empty_title)
                 }
-                cvDisasterTypeItem.background = getTypeDisaster(data.properties.disaster_type, itemView)
+                cvDisasterTypeItem.background = Utils.getTypeDisaster(data.properties.disaster_type, itemView)
                 tvTypeDisasterItem.text = data.properties.disaster_type
                 tvDateDisasterItem.text = DateFormatter.formatDate(data.properties.created_at)
             }
@@ -89,17 +90,6 @@ class ReportAdapter : RecyclerView.Adapter<ReportAdapter.ViewHolder>() {
         }
     }
 
-    private fun getCategoryDisaster(disasterType: String): Int {
-        return when (disasterType) {
-            "flood" -> R.drawable.flood
-            "earthquake" -> R.drawable.earthquake
-            "fire" -> R.drawable.fire
-            "haze" ->R.drawable.haze
-            "wind" ->R.drawable.wind
-            "volcano" ->R.drawable.volcano
-            else -> R.drawable.flood
-        }
-    }
 
     private fun getTypeDisaster(disasterType: String, view: View): Drawable? {
         return when (disasterType) {
