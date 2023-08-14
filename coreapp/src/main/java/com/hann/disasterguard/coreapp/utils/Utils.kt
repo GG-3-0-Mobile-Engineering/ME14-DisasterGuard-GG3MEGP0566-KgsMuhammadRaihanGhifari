@@ -2,6 +2,7 @@ package com.hann.disasterguard.coreapp.utils
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -110,6 +111,16 @@ object Utils {
             "wind" -> ContextCompat.getDrawable(view.context, R.color.cyan)
             "volcano" -> ContextCompat.getDrawable(view.context, R.color.yellow)
             else -> ContextCompat.getDrawable(view.context, R.color.black)
+        }
+    }
+
+    fun getFloodCategoryDescription(context: Context, state: Int): String {
+        return when (state) {
+            1 -> context.getString(R.string.status_code_flood_1)
+            2 -> context.getString(R.string.status_code_flood_2)
+            3 -> context.getString(R.string.status_code_flood_3)
+            4 -> context.getString(R.string.status_code_flood_4)
+            else -> context.getString(R.string.status_code_flood_not_valid)
         }
     }
 }

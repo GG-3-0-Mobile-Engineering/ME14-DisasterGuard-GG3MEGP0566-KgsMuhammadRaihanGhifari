@@ -10,11 +10,6 @@
     <string name="icon_disaster_archive">Icon Disaster Archive</string>
     <string name="line">line</string>
     <string name="archive_disaster">Archive Disaster</string>
-    <string name="status_code_flood_1">Flood Level Unknown - Beware</string>
-    <string name="status_code_flood_2">Flood Between 10 To 70 Centimeter</string>
-    <string name="status_code_flood_3">Flood Between 71 To 150 Centimeter</string>
-    <string name="status_code_flood_4">Flood More than 150 Centimeter</string>
-    <string name="status_code_flood_not_valid">Flood is not valid</string>
     <string name="archive_disaster_detail">Disaster data for the last month</string>
     <string name="hint">Enter a region name</string>
     <string name="close">Close</string>

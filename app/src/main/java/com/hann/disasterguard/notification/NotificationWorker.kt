@@ -13,6 +13,7 @@ import androidx.work.WorkerParameters
 import com.hann.disasterguard.R
 import com.hann.disasterguard.coreapp.utils.NOTIFICATION_CHANNEL_ID
 import com.hann.disasterguard.coreapp.utils.TypeConverterEntity
+import com.hann.disasterguard.coreapp.utils.Utils
 import com.hann.disasterguard.presentation.main.MainActivity
 
 
@@ -36,7 +37,7 @@ class NotificationWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, p
             .setContentIntent(getPendingIntent())
             .setSmallIcon(R.drawable.ic_notifications)
             .setContentTitle(flood?.properties?.city_name)
-            .setContentText(flood?.properties?.let { getFloodCategoryDescription(applicationContext, it.state) })
+            .setContentText(flood?.properties?.let { Utils.getFloodCategoryDescription(applicationContext, it.state) })
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             /* Create or update. */
@@ -51,15 +52,5 @@ class NotificationWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, p
         mNotificationManager.notify(0, notif)
 
         return Result.success()
-    }
-
-    private fun getFloodCategoryDescription(context: Context, state: Int): String {
-        return when (state) {
-            1 -> context.getString(R.string.status_code_flood_1)
-            2 -> context.getString(R.string.status_code_flood_2)
-            3 -> context.getString(R.string.status_code_flood_3)
-            4 -> context.getString(R.string.status_code_flood_4)
-            else -> context.getString(R.string.status_code_flood_not_valid)
-        }
     }
 }
