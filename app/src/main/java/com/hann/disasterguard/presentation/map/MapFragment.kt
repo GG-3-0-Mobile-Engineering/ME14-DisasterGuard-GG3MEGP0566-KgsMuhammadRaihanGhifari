@@ -3,7 +3,6 @@ package com.hann.disasterguard.presentation.map
 import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -218,23 +217,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
            }else{
                binding.tvTitleDisasterMarker.text = requireActivity().getString(com.hann.disasterguard.coreapp.R.string.empty_title)
            }
-           binding.cvDisasterTypeMarker.background = getTypeDisaster(archive.properties.disaster_type, requireView())
+           binding.cvDisasterTypeMarker.background = Utils.getTypeDisaster(archive.properties.disaster_type, requireView())
            binding.tvTypeDisasterMarker.text = archive.properties.disaster_type
            binding.tvDateDisasterMarker.text = DateFormatter.formatDate(archive.properties.created_at)
 
     }
 
-    private fun getTypeDisaster(disasterType: String, view: View): Drawable? {
-        return when (disasterType) {
-            "flood" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.azure)
-            "earthquake" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.orange)
-            "fire" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.red)
-            "haze" ->ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.violet)
-            "wind" -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.cyan)
-            "volcano" ->ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.yellow)
-            else -> ContextCompat.getDrawable(view.context, com.hann.disasterguard.coreapp.R.color.black)
-        }
-    }
 
     private fun getCategoryDisaster(disasterType: String): Int {
         return when (disasterType) {
@@ -458,7 +446,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }else{
             binding.tvTitleDisasterMarker.text = requireActivity().getString(com.hann.disasterguard.coreapp.R.string.empty_title)
         }
-        binding.cvDisasterTypeMarker.background = getTypeDisaster(data.properties.disaster_type, requireView())
+        binding.cvDisasterTypeMarker.background = Utils.getTypeDisaster(data.properties.disaster_type, requireView())
         binding.tvTypeDisasterMarker.text = data.properties.disaster_type
         binding.tvDateDisasterMarker.text = DateFormatter.formatDate(data.properties.created_at)
     }
