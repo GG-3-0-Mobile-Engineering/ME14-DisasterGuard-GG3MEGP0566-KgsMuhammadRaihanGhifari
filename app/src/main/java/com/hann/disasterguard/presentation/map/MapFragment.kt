@@ -149,6 +149,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Toast.makeText(requireContext(), it.error, Toast.LENGTH_SHORT).show()
             }
             if (it.archive.isNotEmpty()){
+                binding.sheet.emptyDisasterLive.visibility = View.GONE
                 for (i in it.archive){
                     var markerColour = 0f
                     when(i.properties.disaster_type){
@@ -190,6 +191,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         true
                     }
                 }
+            }
+            if (it.archive.isEmpty()){
+                binding.sheet.emptyDisasterLive.visibility = View.VISIBLE
             }
             if (!it.isLoading){
                 Utils.hideLoading(dialog)
@@ -377,6 +381,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
             if (it.map.isNotEmpty()){
                 reportAdapter.setData(it.map)
+                binding.sheet.emptyDisasterLive.visibility = View.GONE
                 for (i in it.map){
                     var markerColour = 0f
                     when(i.properties.disaster_type){
@@ -418,6 +423,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         true
                     }
                 }
+            }
+            if (it.map.isEmpty()){
+                binding.sheet.emptyDisasterLive.visibility = View.VISIBLE
             }
             if (!it.isLoading){
                 binding.sheet.shimmerLayoutFollow.visibility = View.GONE
