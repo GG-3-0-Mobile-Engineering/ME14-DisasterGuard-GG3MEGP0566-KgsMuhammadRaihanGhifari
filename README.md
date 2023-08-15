@@ -79,6 +79,26 @@ Implement encryption on Room Database with SQLCipher on DisasterGuard.
 
 ![architecture](readphoto/encription.png)
 
+#Testing Documentation
+This section provides documentation for the testing of the DisasterGuard reporting application.
+
+### UI Test/Instrumentation Test
+
+In this test instrument there are 2 use cases:
+
+* Displays the map correctly from the start of the application.
+* Testing displays disaster based on time period.
+
+![testing](readphoto/instrumenttest.png)
+
+### Unit Test
+
+In this unit test is focused on testing all parts of the ViewModel and some independent functions:
+
+![testing](readphoto/jacocomain.png)
+![testing](readphoto/jacocomainviewmodel.png)
+![testing](readphoto/jacocomapviewmodel.png)
+
 
 ## Download DisasterGuard App
 
