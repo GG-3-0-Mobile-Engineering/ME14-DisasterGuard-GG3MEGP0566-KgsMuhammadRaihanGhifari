@@ -80,4 +80,8 @@ Implement encryption on Room Database with SQLCipher on DisasterGuard.
 ![architecture](readphoto/encription.png)
 
 
+## Download DisasterGuard App
+
+You can access the application by downloading it through the provided link:
+<a href="https://drive.google.com/file/d/1QAo4xRmdhcSeBdtH9oXp5Y2KScHMveYb/view?usp=sharing">Click here.</a>
 
