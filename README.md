@@ -11,10 +11,10 @@ DisasterGuard demonstrates modern Android development with Retrofit, Koin, Corou
 
 ## App Screenshots
 
-| Mode  | Feed                                                                                   | 
+| Mode  | Screenshots                                                                                | 
 |-------|----------------------------------------------------------------------------------------|
 | <b>Light</b> | <img src="readphoto/disasterlight.png" alt="disasterlight">|
-| <b>Dark</b>  | <img src="readphoto/disasterdark" alt="disasterdark">  |
+| <b>Dark</b>  | <img src="readphoto/disasterdark.png" alt="disasterdark">  |
 
 ## Purpose
 
