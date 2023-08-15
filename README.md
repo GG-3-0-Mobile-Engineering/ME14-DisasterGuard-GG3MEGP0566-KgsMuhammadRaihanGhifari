@@ -104,7 +104,7 @@ Implement encryption on Room Database with SQLCipher on DisasterGuard.
 
 ![architecture](readphoto/encription.png)
 
-#Testing Documentation
+# Testing Documentation
 This section provides documentation for the testing of the DisasterGuard reporting application.
 
 ### UI Test/Instrumentation Test
