@@ -9,6 +9,13 @@ DisasterGuard demonstrates modern Android development with Retrofit, Koin, Corou
 </p>
 </br>
 
+## App Screenshots
+
+| Mode  | Feed                                                                                   | 
+|-------|----------------------------------------------------------------------------------------|
+| <b>Light</b> | <img src="readphoto/disasterlight.png" alt="disasterlight">|
+| <b>Dark</b>  | <img src="readphoto/disasterdark" alt="disasterdark">  |
+
 ## Purpose
 
 Contained within this repository is the source code for the Disaster App, representing the final project submission for the Generasi GIGIH 3.0 initiative. This application is crafted with the intention of furnishing data concerning disasters and their respective positions on a map. Moreover, it incorporates a range of functionalities that enable users to refine and visualize the disaster-related information.
@@ -47,7 +54,7 @@ The UI layer consists of UI elements to configure screens that could interact wi
 
 ### Data Layer
 
-![architecture](figure/figure3.png)
+![architecture](readphoto/figure3.png)
 
 The Data Layer encompasses repositories that encapsulate essential business logic. This logic involves tasks such as retrieving data from the local database and fetching remote data from the network. This layer is constructed with an "offline-first" approach, prioritizing operations that can be performed without an active network connection. Furthermore, the Data Layer adheres to the principle of maintaining a [single source of truth](https://en.wikipedia.org/wiki/Single_source_of_truth) principle.<br>
 
@@ -55,7 +62,7 @@ The Data Layer encompasses repositories that encapsulate essential business logi
 
 ## Modularization
 
-![architecture](figure/figure4.png)
+![architecture](readphoto/modular.png)
 
 **DisasterGuard** adopted modularization strategies below:
 
